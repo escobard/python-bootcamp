@@ -4,5 +4,6 @@ num2 = int(input())
 print(num1 * num2)
 
 # Write a program that calculates and outputs the number of characters in any name.
-str1 = str(input())
+## no need to define the variable type str1 = str(input())
+str1 = input()
 print(len(str1))
