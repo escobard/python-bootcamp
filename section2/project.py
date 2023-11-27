@@ -7,7 +7,6 @@
 
 #Write your code below this line 👇
 print("Welcome to the tip calculator.")
-
 ## can pre-define type of input by assigning a type before input declaration
 total_bill = float(input("What was the total bill? $"))
 tip_percentage = int(input("What tip percentage would you like to give?"))

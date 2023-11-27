@@ -12,5 +12,7 @@
 score = 0
 height = 1.8
 isWinning = True
+
 fstring = f"Your {score}, your {height}, are you winning? {isWinning}"
+
 print(fstring)
