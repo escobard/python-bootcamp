@@ -11,24 +11,27 @@ position = input() # Where do you want to put the treasure?
 
 # grabs letter from string
 horizontal = position[0].lower()
+abc = ['a', 'b', 'c']
+horizontal_coordinates = abc.index(horizontal)
 # grabs number from string
-vertical = int(position[1])
+vertical = int(position[1]) - 1
 
 # sets original coordinates
-horizontal_coordinates = 0
-vertical_coordiantes = 0
+# horizontal_coordinates = 0
+# vertical_coordiantes = 0
 
 print(f'Initial coordinates: {horizontal}, {vertical}')
 
 # determines child array index
-if horizontal == 'a':
-  horizontal_coordinates = 0
-elif horizontal == 'b':
-  horizontal_coordinates = 1
-elif horizontal == 'c':
-  horizontal_coordinates = 2
-else:
-  print(f"Only A, B, C characters are allowed, you entered: {horizontal}")
+## commenting to simplify with index
+#if horizontal == 'a':
+#  horizontal_coordinates = 0
+#elif horizontal == 'b':
+#  horizontal_coordinates = 1
+#elif horizontal == 'c':
+#  horizontal_coordinates = 2
+#else:
+#  print(f"Only A, B, C characters are allowed, you entered: {horizontal}")
 
 # determines parent array index
 ## for some reason, this doesn't work, going with a dumber approach
@@ -41,9 +44,9 @@ else:
 #else:
 #  print(f"Only 1, 2, 3 characters are allowed, you entered: {vertical}")
 
-print(f"Ending coordinates: {vertical - 1}, {horizontal_coordinates}")
+print(f"Ending coordinates: {vertical}, {horizontal_coordinates}")
 
-map[vertical - 1][horizontal_coordinates] = 'X'
+map[vertical][horizontal_coordinates] = 'X'
 # Write your code above this row 👆
 # 🚨 Don't change the code below 👇
 print(f"{line1}\n{line2}\n{line3}")
