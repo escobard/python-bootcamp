@@ -2,8 +2,8 @@
 import random
 
 # defines a random number between 1 and 10
-random_integer = random.randint(1, 10)
-print(random_integer)
+random_sideeger = random.randint(1, 10)
+print(random_sideeger)
 
 ## random between 0.000 - 0.999....
 random_float = random.random()
