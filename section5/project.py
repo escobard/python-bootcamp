@@ -21,6 +21,7 @@ chosen_letters = random.choices(letters, k=nr_letters)
 chosen_symbols = random.choices(symbols, k=nr_symbols)
 chosen_numbers = random.choices(numbers, k=nr_numbers)
 password = chosen_letters + chosen_symbols + chosen_numbers
+
 #Hard Level - Order of characters randomised:
 #e.g. 4 letter, 2 symbol, 2 number = g^2jk8&P
 random.shuffle(password)
