@@ -1,10 +1,17 @@
 #Step 5
 
 import random
+import os
+cls = lambda: os.system('cls')
 
-## python syntax to import files
+
+## python full syntax to import files & modules
 from constants.hangman_words import word_list
 from constants.hangman_arty import stages, logo
+
+## python abbreviated syntax to import modules if they are in the same directory!
+# import word_list
+# import stages, logo
 
 #TODO-1: - Update the word list to use the 'word_list' from hangman_words.py
 chosen_word = random.choice(word_list)
@@ -17,7 +24,7 @@ lives = 6
 print(logo)
 
 #Testing code
-print(f'Pssst, the solution is {chosen_word}.')
+# print(f'Pssst, the solution is {chosen_word}.')
 
 #Create blanks
 display = []
@@ -26,6 +33,7 @@ for _ in range(word_length):
 
 while not end_of_game:
     guess = input("Guess a letter: ").lower()
+    cls()
 
     #TODO-4: - If the user has entered a letter they've already guessed, print the letter and let them know.
     if guess in chosen_word:
