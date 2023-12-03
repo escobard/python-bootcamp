@@ -30,3 +30,5 @@ while completed_word != chosen_word:
   print(display)
   print(chosen_word)
   print(completed_word)
+
+print("You've won the game!")
