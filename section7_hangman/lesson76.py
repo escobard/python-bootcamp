@@ -89,6 +89,9 @@ while not end_of_game:
     if guess not in display:
       lives -= 1
       print(stages[lives])
+    elif lives == 0:
+        end_of_game = True
+        print("You lose.")
 
     #TODO-2: - If guess is not a letter in the chosen_word,
     #Then reduce 'lives' by 1. 
@@ -104,6 +107,4 @@ while not end_of_game:
     if "_" not in display:
         end_of_game = True
         print("You win.")
-    elif lives == 0:
-        end_of_game = True
-        print("You lose.")
+    
