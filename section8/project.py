@@ -1,15 +1,20 @@
+from art import logo
+
 alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
-# TODO - combine encrypt() and decrypt() functions into a single function called caesar()
-
 def caesar(direction, text, shift):
+  # protect shift if a number greater than 26 is entered
+  ## remainder is used as index position
+  ### works for values lower than 26, since values lower than 26 are ignored 
+  ### https://www.freecodecamp.org/news/the-python-modulo-operator-what-does-the-symbol-mean-in-python-solved/
+  shift = shift % 26
+
   cypher_text = ""
   for char in text:
-    #TODO-3: What happens if the user enters a number/symbol/space?
-    #Can you fix the code to keep the number/symbol/space when the text is encoded/decoded?
-    #e.g. start_text = "meet me at 3"
-    #end_text = "•••• •• •• 3"
-    if direction == 'encode':
+    # persists any character that is not in the alphabet 
+    if char not in alphabet:
+      shift_char = char
+    elif direction == 'encode':
       # handle cases where shift takes index beyond alphabet length
       if alphabet.index(char) + shift > 25:
         shift_char = alphabet[(alphabet.index(char) + shift) - 26]
@@ -21,20 +26,17 @@ def caesar(direction, text, shift):
     cypher_text += shift_char
   print(f"The {direction} text is {cypher_text}")
 
-#TODO-1: Import and print the logo from art.py when the program starts.
+print(logo)
+ 
+should_continue = True
+while should_continue:
+  direction = input("Type 'encode' to encrypt, type 'decode' to decrypt:\n")
+  text = input("Type your message:\n").lower()
+  shift = int(input("Type the shift number:\n"))
 
-#TODO-4: Can you figure out a way to ask the user if they want to restart the cipher program?
-#e.g. Type 'yes' if you want to go again. Otherwise type 'no'.
-#If they type 'yes' then ask them for the direction/text/shift again and call the caesar() function again?
-#Hint: Try creating a while loop that continues to execute the program if the user types 'yes'. 
-
-direction = input("Type 'encode' to encrypt, type 'decode' to decrypt:\n")
-text = input("Type your message:\n").lower()
-shift = int(input("Type the shift number:\n"))
-
-#TODO-2: What if the user enters a shift that is greater than the number of letters in the alphabet?
-#Try running the program and entering a shift number of 45.
-#Add some code so that the program continues to work even if the user enters a shift number greater than 26. 
-#Hint: Think about how you can use the modulus (%).
-
-caesar(direction, text, shift)
+  caesar(direction, text, shift)
+  # how to use an input & print statement together
+  result = input("Type yes if you want to go again, type no if you don't want to:")
+  if result == 'no':
+    should_continue = False
+    print('Goodbye')
