@@ -9,7 +9,7 @@ def paint_calc(height, width, cover):
     cans_rounded = 2
   elif number_of_cans >= 2:
     cans_rounded = math.ceil(number_of_cans)
-  print(cans_rounded)
+  print(f"You'll need {cans_rounded} cans of paint.")
 
 
 
