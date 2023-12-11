@@ -41,10 +41,10 @@ logo = """
 ## game does not actually remove cards once chosen, but could be improved in the future
 cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 
-def checkWinner(your_cards, computer_cards, is_drawing):
+def compareScore(your_cards, computer_cards, is_drawing):
 
-  print(f"Your Cards {your_cards}, current score: {sum(your_cards)}")
-  print(f"Computer score is {sum(computer_cards)}")
+  print(f"Your Cards are: {your_cards}, your score: {sum(your_cards)}")
+  print(f"Computer cards are: {computer_cards}, computer core is {sum(computer_cards)}")
   
   if sum(computer_cards) > 21:
     print(f"Bust - Computer loses, you win!")
@@ -92,11 +92,11 @@ def blackjack():
         if draw == 'n':
           is_drawing = False
           computer_cards.append(random.choice(cards))
-          checkWinner(your_cards, computer_cards, is_drawing)
+          compareScore(your_cards, computer_cards, is_drawing)
         else:
           computer_cards.append(random.choice(cards))
           your_cards.append(random.choice(cards))
-          checkWinner(your_cards, computer_cards, is_drawing)
+          compareScore(your_cards, computer_cards, is_drawing)
     elif play == 'n':
       is_running = False
       print('Thanks for playing!')
