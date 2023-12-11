@@ -24,8 +24,6 @@ def days_in_month(year, month):
   else:
     return month_days[month-1]
   
-
-  
 #🚨 Do NOT change any of the code below 
 year = int(input("Enter a year")) # Enter a year
 month = int(input("Enter a month")) # Enter a month
