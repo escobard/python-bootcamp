@@ -64,13 +64,11 @@ def process_coins(cost):
   dimes = int(input('How many Dimes?'))
   nickles = int(input('How many Nickles?'))
   pennies = int(input('How many Pennies?'))
-  total = (quarters * 0.25) + (dimes * 0.1) + (nickles * 0.05) + (pennies * 0.01)
+  money = (quarters * 0.25) + (dimes * 0.1) + (nickles * 0.05) + (pennies * 0.01)
 
-  if cost > total:
-    print(f"Sorry, ${total} is not enough money. Money refunded")
+  if cost > money:
+    print(f"Sorry, ${money} is not enough money. Money refunded")
     processing_transaction = False
-  else:
-    money = total
 
 def process_transaction(coffee_choice):
   global resources
@@ -95,9 +93,8 @@ def coffee_machine():
     else:
       coffee_choice = menu[user_choice]
       print(f"You have selected a {user_choice}")
-      processing_transaction = True
       check_resources(coffee_choice)
-
+      processing_transaction = True
       while processing_transaction and is_running:
         process_coins(coffee_choice['cost'])
         process_transaction(coffee_choice)
