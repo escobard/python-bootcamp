@@ -31,8 +31,8 @@ resources = {
 }
 
 is_running = True
-processing_coins = True
-
+processing_transaction = True
+money = 0
 
 def check_resources(coffee_choice):
   global is_running
@@ -51,11 +51,12 @@ def check_resources(coffee_choice):
 
   ## simplified syntax for false boolean checks, nice!
   if not has_ingredients:
-    print(f"Machine shut down, not enough {''.join(out_of_ingredients)}")
+    print(f"Machine shut down, not enough {', or '.join(out_of_ingredients)}")
     is_running = False
 
 def process_coins(cost):
-  global processing_coins
+  global processing_transaction
+  global money
 
   print('Please insert coins.')
 
@@ -67,34 +68,40 @@ def process_coins(cost):
 
   if cost > total:
     print(f"Sorry, ${total} is not enough money. Money refunded")
-    processing_coins = False
+    processing_transaction = False
   else:
-    if total > cost:
-      print(f'Your change is {round(total - cost, 2)}')
+    money = total
 
-def process_transaction():
+def process_transaction(coffee_choice):
   global resources
+  for ingredient in coffee_choice['ingredients']:
+    resources[ingredient] -= coffee_choice['ingredients'][ingredient]
+  if money > coffee_choice['cost']:
+    print(f'Your change is ${round(money - coffee_choice['cost'], 2)}')
 
 
 def coffee_machine():
   ## leverage global variables
   global is_running
-  global processing_coins
+  global processing_transaction
   global resources
 
   while is_running:
     user_choice = input('What would you like? (espresso/latte/cappuccino):')
-    coffee_choice = menu[user_choice]
     if user_choice == 'off':
       is_running = False
     elif user_choice == 'print':
       print(f'Available resources: {resources}')
     else:
+      coffee_choice = menu[user_choice]
       print(f"You have selected a {user_choice}")
+      processing_transaction = True
       check_resources(coffee_choice)
 
-      while processing_coins and is_running:
+      while processing_transaction and is_running:
         process_coins(coffee_choice['cost'])
-        process_transaction()
+        process_transaction(coffee_choice)
+        print(f"Here is your {user_choice} ☕. Enjoy!")
+        processing_transaction = False
 
 coffee_machine()
