@@ -11,4 +11,4 @@ quiz_brain = QuizBrain(0, question_bank)
 
 print(question_bank[10].text)
 
-quiz_brain.question_input(0)
+quiz_brain.next_question()
