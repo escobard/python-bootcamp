@@ -4,6 +4,9 @@ from data import question_data
 
 question_bank = []
 
+# data can be swapped out and different sources can be used as long as the correct keys are passed to match data structure
+## eg, https://opentdb.com/api_config.php
+### https://opentdb.com/api.php?amount=10&category=18&difficulty=easy&type=boolean
 for question in question_data:
   question_bank.append(Question(question['text'], question['answer']))
 
