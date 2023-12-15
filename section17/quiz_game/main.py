@@ -11,4 +11,5 @@ quiz_brain = QuizBrain(0, question_bank)
 
 print(question_bank[10].text)
 
-quiz_brain.next_question()
+while quiz_brain.still_has_questions():
+  quiz_brain.next_question()
