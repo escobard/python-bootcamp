@@ -7,22 +7,13 @@ from colors import colors
 turtle = Turtle()
 turtle.shape('circle')
 turtle.color('black')
-turtle.speed('fast')
-turtle.pensize(20)
+turtle.speed('fastest')
+turtle.pensize(15)
 
 
-def turn_right(angle):
-  return turtle.right(angle)
+direction = [0, 90, 180, 270]
 
-
-def turn_left(angle):
-  return turtle.left(angle)
-
-
-direction = [turn_left, turn_right]
-
-for _ in range(1, 101):
-  turtle.forward(100)
+for _ in range(1, 201):
+  turtle.forward(50)
   turtle.color(random.choice(colors))
-  random_direction = random.choice(direction)
-  random_direction(90)
+  turtle.setheading(random.choice(direction))
