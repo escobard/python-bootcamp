@@ -1,6 +1,8 @@
-from turtle import Screen
-from snake import Snake
 import time
+from turtle import Screen
+
+from food import Food
+from snake import Snake
 
 screen = Screen()
 # using named arguments to improve readability
@@ -11,8 +13,9 @@ screen.title('Snake Game')
 # turns off automatic transitions for animations
 screen.tracer(0)
 
-
 snake = Snake()
+food = Food()
+
 
 screen.listen()
 screen.onkey(snake.up, 'Up')
