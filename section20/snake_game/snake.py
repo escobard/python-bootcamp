@@ -7,6 +7,8 @@ class Snake:
   def __init__(self):
     self.segments = []
     self.create_snake()
+    # assign the head of the snake to a class variable
+    self.head = self.segments[0]
 
   def create_snake(self):
     for position in STARTING_POSITIONS:
@@ -26,3 +28,19 @@ class Snake:
 
     # move first segment forward after all other segments have been moved
     self.segments[0].forward(MOVE_DISTANCE)
+
+  def up(self):
+    ## turn the snake's head up / 90 degrees
+    self.head.setheading(90)
+
+  def down(self):
+    ## turn the snake's head up / 90 degrees
+    self.head.setheading(270)
+
+  def left(self):
+    ## turn the snake's head up / 90 degrees
+    self.head.setheading(180)
+
+  def right(self):
+    ## turn the snake's head up / 90 degrees
+    self.head.setheading(0)
