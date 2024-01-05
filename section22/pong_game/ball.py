@@ -8,6 +8,7 @@ class Ball(Turtle):
     self.penup()
     self.x_move = 10
     self.y_move = 10
+    self.move_speed = 0.1
 
   def move(self) -> None:
     new_x = self.xcor() + self.x_move
@@ -18,9 +19,16 @@ class Ball(Turtle):
     ## reverses the values of the coordinates so the ball moves in opposite directions
     self.y_move *= -1
 
+    ## increases speed by 10%
+    self.move_speed * 0.9
+
   def bounce_x(self):
     self.x_move *= -1
 
+    ## increases speed by 10%
+    self.move_speed * 0.9
+
   def reset_position(self):
     self.goto(0,0);
+    self.move_speed = 0.1
     self.bounce_x()
