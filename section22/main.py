@@ -9,14 +9,14 @@ screen.title('Pong')
 screen.tracer(0)
 
 
-paddle = Paddle((350, 0))
-paddle_2 = Paddle((-350, 0))
+right_paddle = Paddle((350, 0))
+left_paddle = Paddle((-350, 0))
 
 screen.listen()
-screen.onkey(paddle.go_up, 'Up')
-screen.onkey(paddle.go_down, 'Down')
-screen.onkey(paddle_2.go_up, 'W')
-screen.onkey(paddle_2.go_down, 'D')
+screen.onkey(right_paddle.go_up, 'Up')
+screen.onkey(right_paddle.go_down, 'Down')
+screen.onkey(left_paddle.go_up, 'w')
+screen.onkey(left_paddle.go_down, 's')
 
 game_is_on = True
 while game_is_on:
