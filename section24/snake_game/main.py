@@ -30,7 +30,7 @@ while game_is_on:
   # tells the screen to update
   ## only updates the screen after all squares have been rendered / finished moving, useful!
   screen.update()
-  time.sleep(0.1)
+  time.sleep(0.07)
   snake.move()
 
   # detect collision with food
