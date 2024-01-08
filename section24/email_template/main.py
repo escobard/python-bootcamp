@@ -10,7 +10,7 @@
 # step 1 - grab names from files
 with open('./names/invited_names.txt') as name_file:
   names = name_file.readlines()
-  print(names)
+  # print(names)
 
 # step 2 - loop through all names in the file
 
@@ -23,8 +23,8 @@ with open('./letters/starting_letter.txt') as example:
     # step 5 - replace [name] with name
 
     new_letter = letter.replace("[name]", name)
-    print(new_letter)
+    # print(new_letter)
 
     # step 6 - write letter with name as a txt file to ready_to_send directory
     with open(f'./ready_to_send/{name}.txt', mode='w') as file:
-     file.write(letter)
+     file.write(new_letter)
