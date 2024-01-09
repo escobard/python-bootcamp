@@ -12,17 +12,24 @@ turtle.shape(image)
 
 
 correct_guesses = []
+score = 0
 # add an input to the turtle screen to get user answer
 
-answer_state = screen.textinput(title='Guess the state', prompt="What's another state's name")
-answer_to_lower = answer_state.lower()
-answer = answer_to_lower.capitalize()
+game_is_on = True
 
-data = pandas.read_csv('50_states.csv')
-check_guess = data[data.state == answer]
-if check_guess.state:
-  correct_guesses.append(answer)
+while game_is_on:
+  answer_state = screen.textinput(title='Guess the state', prompt="What's another state's name")
+  answer_to_lower = answer_state.lower()
+  answer = answer_to_lower.capitalize()
 
-print(check_guess)
+  data = pandas.read_csv('50_states.csv')
+  check_guess = data[data.state == answer]
+
+  if not check_guess.empty:
+    correct_guesses.append(answer)
+    print('correct!')
+    score += 1
+
+  print(check_guess)
 
 screen.exitonclick()
