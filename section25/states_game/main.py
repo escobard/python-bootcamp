@@ -19,13 +19,13 @@ correct_guesses = []
 game_is_on = True
 
 
-def write_state(x, y, answer_state):
+def write_state(x, y, state_name):
   state = turtle.Turtle()
   state.hideturtle()
   state.color('black')
   state.penup()
   state.goto(x, y)
-  state.write(answer_state)
+  state.write(state_name)
 
 
 while game_is_on:
@@ -35,7 +35,17 @@ while game_is_on:
 
   check_guess = data[data.state == answer]
   print(check_guess.to_dict())
+  if answer_state == 'Exit':
+    missing_states = data[correct_guesses]
+    missing_states_file = {
+      'Missing states': [missing_states]
+    }
+    dataframe = pandas.DataFrame(missing_states_file)
 
+    # convert existing or new data frames to csv
+    dataframe.to_csv('missing_states.csv')
+    print(missing_states)
+    break
   if answer in all_states:
     correct_guesses.append(answer)
     # big gotcha with pandas - returns a string with useless values for a single value
