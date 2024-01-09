@@ -20,6 +20,8 @@ answer = answer_to_lower.capitalize()
 
 data = pandas.read_csv('50_states.csv')
 check_guess = data[data.state == answer]
+if check_guess.state:
+  correct_guesses.append(answer)
 
 print(check_guess)
 
