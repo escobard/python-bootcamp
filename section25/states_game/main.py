@@ -10,26 +10,40 @@ screen.setup(width=725, height=461)
 screen.addshape(image)
 turtle.shape(image)
 
+data = pandas.read_csv('50_states.csv')
+all_states = data.state.to_list()
 
 correct_guesses = []
-score = 0
 # add an input to the turtle screen to get user answer
 
 game_is_on = True
 
+
+def write_state(x, y, answer_state):
+  state = turtle.Turtle()
+  state.hideturtle()
+  state.color('black')
+  state.penup()
+  state.goto(x, y)
+  state.write(answer_state)
+
+
 while game_is_on:
-  answer_state = screen.textinput(title='Guess the state', prompt="What's another state's name")
+  answer_state = screen.textinput(title=f'{len(correct_guesses)}/50 states correct', prompt="Guess a state's name")
   answer_to_lower = answer_state.lower()
   answer = answer_to_lower.capitalize()
 
-  data = pandas.read_csv('50_states.csv')
   check_guess = data[data.state == answer]
+  print(check_guess.to_dict())
 
-  if not check_guess.empty:
+  if answer in all_states:
     correct_guesses.append(answer)
+    # big gotcha with pandas - returns a string with useless values for a single value
+    ## apparently, it has to be converted to the expected type and the right value will be returned
+    ### there is a type error when converting pandas variables to strings directly, instead use series.property.iloc[0] to avoid warnings
+    write_state(int(check_guess.x.iloc[0]), int(check_guess.y.iloc[0]), answer)
     print('correct!')
-    score += 1
 
-  print(check_guess)
+  # print(check_guess)
 
 screen.exitonclick()
