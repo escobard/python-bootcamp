@@ -13,7 +13,7 @@ turtle.shape(image)
 data = pandas.read_csv('50_states.csv')
 all_states = data.state.to_list()
 
-correct_guesses = []
+guessed_states = []
 # add an input to the turtle screen to get user answer
 
 game_is_on = True
@@ -29,25 +29,28 @@ def write_state(x, y, state_name):
 
 
 while game_is_on:
-  answer_state = screen.textinput(title=f'{len(correct_guesses)}/50 states correct', prompt="Guess a state's name")
+  answer_state = screen.textinput(title=f'{len(guessed_states)}/50 states correct', prompt="Guess a state's name")
   answer_to_lower = answer_state.lower()
   answer = answer_to_lower.capitalize()
 
   check_guess = data[data.state == answer]
   print(check_guess.to_dict())
-  if answer_state == 'Exit':
-    missing_states = data[correct_guesses]
-    missing_states_file = {
-      'Missing states': [missing_states]
-    }
-    dataframe = pandas.DataFrame(missing_states_file)
+  if answer == 'Exit':
+    # no pandas function to help you parse data back into a useful format, should be done with python directly
+    missing_states = []
+    for state in all_states:
+      if state not in guessed_states:
+        missing_states.append(state)
+
+    # pandas converts each index from a list to a column as a key/value pair - awesome!
+    dataframe = pandas.DataFrame(missing_states)
 
     # convert existing or new data frames to csv
     dataframe.to_csv('missing_states.csv')
     print(missing_states)
     break
   if answer in all_states:
-    correct_guesses.append(answer)
+    guessed_states.append(answer)
     # big gotcha with pandas - returns a string with useless values for a single value
     ## apparently, it has to be converted to the expected type and the right value will be returned
     ### there is a type error when converting pandas variables to strings directly, instead use series.property.iloc[0] to avoid warnings
