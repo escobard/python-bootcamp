@@ -6,6 +6,7 @@ screen.title('U.S. States game')
 
 # load new image as turtle shape
 image = 'blank_states_img.gif'
+screen.setup(width=725, height=461)
 screen.addshape(image)
 turtle.shape(image)
 
