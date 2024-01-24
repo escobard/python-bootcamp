@@ -7,7 +7,6 @@ with open('./file1.txt') as file_1:
 with open('./file2.txt') as file_2:
   file_2_data = file_2.readlines()
 
-
 file_1_data_as_integers = [int(integer) for integer in file_1_data]
 file_2_data_as_integers = [int(integer) for integer in file_2_data]
 
