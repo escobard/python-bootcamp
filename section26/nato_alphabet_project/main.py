@@ -28,5 +28,7 @@ phonetic_alphabet = {row.letter:row.code for (index, row) in data_to_rows}
 # {"A": "Alfa", "B": "Bravo"}
 print(phonetic_alphabet)
 
+word = 'test'
 #TODO 2. Create a list of the phonetic code words from a word that the user inputs.
-
+phonetic_list = [phonetic_alphabet[letter.upper()] for letter in word]
+print(phonetic_list)
