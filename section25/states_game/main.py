@@ -18,7 +18,6 @@ guessed_states = []
 
 game_is_on = True
 
-
 def write_state(x, y, state_name):
   state = turtle.Turtle()
   state.hideturtle()
@@ -26,7 +25,6 @@ def write_state(x, y, state_name):
   state.penup()
   state.goto(x, y)
   state.write(state_name)
-
 
 while game_is_on:
   answer_state = screen.textinput(title=f'{len(guessed_states)}/50 states correct', prompt="Guess a state's name")
