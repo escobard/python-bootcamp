@@ -1,6 +1,7 @@
 # sample function with positional python arguments
 ## create function that takes a dynamic number of arguments, sums all the arguments and returns the sum
 def add(*args):
+  print(args)
   sum = 0
   for arg in args:
     sum += arg

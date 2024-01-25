@@ -1,6 +1,7 @@
 # build a graphical user interface (GUI) for users to interact with
 ## will leverage the tkinter library, which is natively available with python
-### https://docs.python.org/3/library/tkinter.html
+### https://docs.python.org/3/library/tkinter.
+#### tkinter was built with tk (another language), python is a wrapper around that, which is why this library uses * and ** type of arguments so freely
 import tkinter
 
 window = tkinter.Tk()
