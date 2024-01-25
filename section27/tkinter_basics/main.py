@@ -13,6 +13,9 @@ window = tkinter.Tk()
 window.title('My first GUI program')
 window.minsize(width=500, height=300)
 
+# can change padding of an element
+window.config(padx=20, pady=20)
+
 # Label - not clear what this is
 my_label = tkinter.Label(text="I am a label", font=('Arial', 24, 'bold'))
 
@@ -31,6 +34,7 @@ my_label = tkinter.Label(text="I am a label", font=('Arial', 24, 'bold'))
 ## if using grid positioning, it is best practice to use grid placement for all elements on the screen
 ### cannot mixup grid and pack, but can use grid and place together
 my_label.grid(column=0, row=0)
+my_label.config(padx=50, pady=50)
 
 
 # can change configuration of objects in numerous ways after creation - https://tcl.tk/man/tcl8.6/TkCmd/entry.htm
