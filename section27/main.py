@@ -28,7 +28,7 @@ my_label.pack()
 
 ## to manage events (like a click), event handlers need to be developed
 def button_clicked():
-  print("I got clicked")
+  my_label["text"] = "Button got clicked!"
 
 ## command= sets the callback function in case of an event with the element
 button = tkinter.Button(text="Click Me", command=button_clicked)
