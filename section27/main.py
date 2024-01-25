@@ -28,12 +28,19 @@ my_label.pack()
 
 ## to manage events (like a click), event handlers need to be developed
 def button_clicked():
-  my_label["text"] = "Button got clicked!"
+  my_label["text"] = input.get()
 
 ## command= sets the callback function in case of an event with the element
 button = tkinter.Button(text="Click Me", command=button_clicked)
 ## .pack must be run to place/render every element on the screen
 button.pack()
+
+# Entry - similar to an HTML input
+input = tkinter.Entry(width=10)
+input.pack()
+
+## returns the value of the input as a string
+## input_value = input.get()
 
 ## keeps a window on the screen with tkinter
 window.mainloop()
