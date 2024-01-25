@@ -6,6 +6,8 @@ import tkinter
 
 # to import all modules from a library, we can use:
 ## from tkinter import *
+def button_clicked():
+  my_label["text"] = input.get()
 
 window = tkinter.Tk()
 window.title('My first GUI program')
@@ -15,10 +17,15 @@ window.minsize(width=500, height=300)
 my_label = tkinter.Label(text="I am a label", font=('Arial', 24, 'bold'))
 
 # apply label to the screen
-## .pack() centers the tkinter object on the screen
+## .pack() places the tkinter object in a relative position on the screen (left, right, center, etc)
 ### .pack() utilizes the packer, which tkinters geometry-management mechanism
 #### https://docs.python.org/3.12/library/tkinter.html#the-packer
-my_label.pack()
+#my_label.pack()
+
+# .place() allows us to place/render the element on an x/y axis
+## x/y axis center is at the top left corner of the screen!
+### the tradeoff with .place() is that it is difficult to find the exact coordinates to place elements
+my_label.place(x=0, y=0)
 
 
 # can change configuration of objects in numerous ways after creation - https://tcl.tk/man/tcl8.6/TkCmd/entry.htm
@@ -27,17 +34,16 @@ my_label.pack()
 # Button
 
 ## to manage events (like a click), event handlers need to be developed
-def button_clicked():
-  my_label["text"] = input.get()
+
 
 ## command= sets the callback function in case of an event with the element
 button = tkinter.Button(text="Click Me", command=button_clicked)
 ## .pack must be run to place/render every element on the screen
-button.pack()
+#button.pack()
 
 # Entry - similar to an HTML input
 input = tkinter.Entry(width=10)
-input.pack()
+#input.pack()
 
 ## returns the value of the input as a string
 ## input_value = input.get()
