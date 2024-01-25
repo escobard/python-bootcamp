@@ -25,7 +25,12 @@ my_label = tkinter.Label(text="I am a label", font=('Arial', 24, 'bold'))
 # .place() allows us to place/render the element on an x/y axis
 ## x/y axis center is at the top left corner of the screen!
 ### the tradeoff with .place() is that it is difficult to find the exact coordinates to place elements
-my_label.place(x=0, y=0)
+## my_label.place(x=0, y=0)
+
+# .grid() allows us to create a grid and place elements within the grid coordinates
+## if using grid positioning, it is best practice to use grid placement for all elements on the screen
+### cannot mixup grid and pack, but can use grid and place together
+my_label.grid(column=0, row=0)
 
 
 # can change configuration of objects in numerous ways after creation - https://tcl.tk/man/tcl8.6/TkCmd/entry.htm
@@ -41,9 +46,15 @@ button = tkinter.Button(text="Click Me", command=button_clicked)
 ## .pack must be run to place/render every element on the screen
 #button.pack()
 
+button.grid(column=1, row=1)
+
+new_button = tkinter.Button(text='New button')
+new_button.grid(column=2, row=0)
+
 # Entry - similar to an HTML input
 input = tkinter.Entry(width=10)
 #input.pack()
+input.grid(column=3, row=2)
 
 ## returns the value of the input as a string
 ## input_value = input.get()
