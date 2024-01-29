@@ -17,3 +17,16 @@ LONG_BREAK_MIN = 20
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- # 
 
 # ---------------------------- UI SETUP ------------------------------- #
+
+window = Tk()
+window.title("Pomodoro")
+
+# canvas with tkinter - allows us to draw an image on the screen
+canvas = Canvas(width=200, height=224)
+
+# photoimage - function with tkinter to read through an image file
+tomato_img = PhotoImage(file="tomato.png")
+canvas.create_image(100, 112, image=tomato_img)
+canvas.pack()
+
+window.mainloop()
