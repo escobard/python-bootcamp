@@ -7,7 +7,7 @@ RED = "#e7305b"
 GREEN = "#9bdeac"
 YELLOW = "#f7f5dd"
 FONT_NAME = "Courier"
-WORK_MIN = 25
+WORK_MIN = 1
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 
@@ -17,7 +17,22 @@ LONG_BREAK_MIN = 20
 
 # calls the countodwn function to begin the timer
 def start_timer():
-  count_down(5 * 60)
+  reps = 0
+  reps += 1
+  work_sec = WORK_MIN * 60
+  short_break_sec = SHORT_BREAK_MIN * 60
+  long_break_sec = LONG_BREAK_MIN * 60
+
+  count_down(work_sec)
+  if reps % 8 == 0:
+    count_down(long_break_sec)
+    title_label.config(text="Break", fg=RED)
+  elif reps % 2 == 0:
+    count_down(short_break_sec)
+    title_label.config(text="Break", fg=PINK)
+  else:
+    count_down(work_sec)
+    title_label.config(text="Break", fg=GREEN)
 
 
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- # 
@@ -25,11 +40,10 @@ def start_timer():
 import time
 
 def count_down(count):
+
   # converts seconds to minute / second timer
   ## math.floor(returns largest wholenumber)
   count_min = math.floor(count / 60)
-
-
 
   # returns the number of seconds that remain after being cleanly divided by 60
   ## eg 100 / 60 = 40
@@ -37,22 +51,23 @@ def count_down(count):
   count_sec = count % 60
 
   # handle second count for 0
-  if count == 0:
+  if count_sec == 0:
     count_sec = "00"
 
   # handle second logic for less than 10 seconds
-  if count < 10:
+  if count < 10 and count_sec != 0:
     ## on dynamic types with python https://stackoverflow.com/questions/11328920/is-python-strongly-typed
     ### python allows you to change the variable type by adding a different type of value
     count_sec = f"0{count_sec}"
 
   # change canvas to return new time
   canvas.itemconfig(timer_text, text=f"{count_min}:{count_sec}")
-  print(count)
   # prevents counts in the negative
   if count > 0:
     # .after calls a specified function after the specified time
     window.after(1000, count_down, count - 1)
+  else:
+    start_timer()
 
 # ---------------------------- UI SETUP ------------------------------- #
 
