@@ -10,6 +10,7 @@ FONT_NAME = "Courier"
 WORK_MIN = 1
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
+reps = 0
 
 # ---------------------------- TIMER RESET ------------------------------- # 
 
@@ -17,7 +18,7 @@ LONG_BREAK_MIN = 20
 
 # calls the countodwn function to begin the timer
 def start_timer():
-  reps = 0
+  global reps
   reps += 1
   work_sec = WORK_MIN * 60
   short_break_sec = SHORT_BREAK_MIN * 60
@@ -32,7 +33,7 @@ def start_timer():
     title_label.config(text="Break", fg=PINK)
   else:
     count_down(work_sec)
-    title_label.config(text="Break", fg=GREEN)
+    title_label.config(text="Work", fg=GREEN)
 
 
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- # 
@@ -68,7 +69,10 @@ def count_down(count):
     window.after(1000, count_down, count - 1)
   else:
     start_timer()
-
+    mark = ""
+    work_sessions = math.floor(reps/2)
+    for _ in range(work_sessions):
+      mark += "✓"
 # ---------------------------- UI SETUP ------------------------------- #
 
 window = Tk()
@@ -95,7 +99,7 @@ start_button.grid(column=0,row=2)
 reset_button = Button(text="Reset", highlightthickness=0)
 reset_button.grid(column=2,row=2)
 
-checkmark_label = Label(text='✓', fg=GREEN, font=(FONT_NAME, 12), bg=YELLOW)
+checkmark_label = Label(fg=GREEN, font=(FONT_NAME, 12), bg=YELLOW)
 checkmark_label.grid(column=1,row=3)
 
 window.mainloop()
