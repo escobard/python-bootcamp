@@ -1,4 +1,5 @@
 from tkinter import *
+import math
 
 # ---------------------------- CONSTANTS ------------------------------- #
 PINK = "#e2979c"
@@ -16,7 +17,7 @@ LONG_BREAK_MIN = 20
 
 # calls the countodwn function to begin the timer
 def start_timer():
-  count_down(5)
+  count_down(5 * 60)
 
 
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- # 
@@ -24,8 +25,18 @@ def start_timer():
 import time
 
 def count_down(count):
+  # converts seconds to minute / second timer
+  ## math.floor(returns largest wholenumber)
+  count_min = math.floor(count / 60)
+
+  # returns the number of seconds that remain after being cleanly divided by 60
+  ## eg 100 / 60 = 40
+  ### eg count = 10 && count % 60 = 40
+  count_sec = count % 60
+
+
   # change canvas to return new time
-  canvas.itemconfig(timer_text, text=count)
+  canvas.itemconfig(timer_text, text=f"{count_min}:{count_sec}")
   print(count)
   # prevents counts in the negative
   if count > 0:
