@@ -29,11 +29,22 @@ def count_down(count):
   ## math.floor(returns largest wholenumber)
   count_min = math.floor(count / 60)
 
+
+
   # returns the number of seconds that remain after being cleanly divided by 60
   ## eg 100 / 60 = 40
   ### eg count = 10 && count % 60 = 40
   count_sec = count % 60
 
+  # handle second count for 0
+  if count == 0:
+    count_sec = "00"
+
+  # handle second logic for less than 10 seconds
+  if count < 10:
+    ## on dynamic types with python https://stackoverflow.com/questions/11328920/is-python-strongly-typed
+    ### python allows you to change the variable type by adding a different type of value
+    count_sec = f"0{count_sec}"
 
   # change canvas to return new time
   canvas.itemconfig(timer_text, text=f"{count_min}:{count_sec}")
