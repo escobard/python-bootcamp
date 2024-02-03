@@ -16,18 +16,32 @@ class Password:
     self.update_website()
     self.update_email()
     self.update_password()
+    self.update_file()
 
   def update_website(self):
     website_value: str = website_entry.get()
     self.website = website_value
+    # delete entry value
+    ## https://tkdocs.com/tutorial/widgets.html#entry
+    website_entry.delete(0, "end")
 
   def update_email(self):
     email_value: str = email_entry.get()
     self.email = email_value
+    email_entry.delete(0, "end")
 
   def update_password(self):
     password_value: str = password_entry.get()
     self.password = password_value
+    password_entry.delete(0, "end")
+
+  def update_file(self):
+    ## https://www.w3schools.com/python/python_file_write.asp
+    password_file = open("passwords.txt", "a")
+    ## adding \n to create new line after each entry
+    ### https://stackoverflow.com/questions/2918362/writing-string-to-a-file-on-a-new-line-every-time
+    password_file.write(f"{self.website} / {self.email} / {self.password}\n")
+    password_file.close()
 
 
 # ---------------------------- UI SETUP ------------------------------- #
