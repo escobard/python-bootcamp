@@ -27,8 +27,15 @@ password_label.grid(row=3, column=0, sticky=EW)
 # Entries
 website_entry = Entry(width=35)
 website_entry.grid(row=1, column=1, columnspan=2, sticky=EW)
+## focus allows the user to begin typing into the entry on program startup
+website_entry.focus()
+
 email_entry = Entry(width=35)
 email_entry.grid(row=2, column=1, columnspan=2, sticky=EW)
+## insert places a value within an entry
+### first argument the text within the specified x axis coordinates
+email_entry.insert(0, "dan@gmail.com")
+
 password_entry = Entry(width=35)
 password_entry.grid(row=3, column=1)
 
