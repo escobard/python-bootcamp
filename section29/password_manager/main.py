@@ -1,9 +1,39 @@
 from tkinter import *
+
+
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
+class Password:
+
+  def __init__(self):
+    self.website: str = ""
+    self.email: str = ""
+    self.password: str = ""
+
+  def update_values(self):
+    self.update_website()
+    self.update_email()
+    self.update_password()
+
+  def update_website(self):
+    website_value: str = website_entry.get()
+    self.website = website_value
+
+  def update_email(self):
+    email_value: str = email_entry.get()
+    self.email = email_value
+
+  def update_password(self):
+    password_value: str = password_entry.get()
+    self.password = password_value
+
+
 # ---------------------------- UI SETUP ------------------------------- #
+
+password_store = Password()
+
 window = Tk()
 window.title("Password manager")
 window.config(padx=40, pady=40, bg="white")
@@ -42,7 +72,7 @@ password_entry.grid(row=3, column=1)
 # Buttons
 generate_password_button = Button(text="Generate Password")
 generate_password_button.grid(row=3, column=2, sticky=EW)
-add_button = Button(text="Add", width=36)
+add_button = Button(text="Add", width=36, command=password_store.update_values)
 add_button.grid(row=4, column=1, columnspan=2, sticky=EW)
 
 window.mainloop()
