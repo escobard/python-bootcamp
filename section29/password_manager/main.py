@@ -28,7 +28,9 @@ class Password:
   def update_email(self):
     email_value: str = email_entry.get()
     self.email = email_value
-    email_entry.delete(0, "end")
+
+    # commenting delete for now, until favorite email is fetched from file
+    #email_entry.delete(0, "end")
 
   def update_password(self):
     password_value: str = password_entry.get()
@@ -40,7 +42,7 @@ class Password:
     password_file = open("passwords.txt", "a")
     ## adding \n to create new line after each entry
     ### https://stackoverflow.com/questions/2918362/writing-string-to-a-file-on-a-new-line-every-time
-    password_file.write(f"{self.website} / {self.email} / {self.password}\n")
+    password_file.write(f"{self.website} | {self.email} | {self.password}\n")
     password_file.close()
 
 
