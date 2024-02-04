@@ -1,5 +1,5 @@
 from tkinter import *
-
+from tkinter import messagebox
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
@@ -16,7 +16,12 @@ class Password:
     self.update_website()
     self.update_email()
     self.update_password()
-    self.update_file()
+
+    # messagebox methods of tkinter
+    is_ok = messagebox.askokcancel(title="Title", message=f"These are the details you entered: \nEmail: {self.email} \nPassword: {self.password} \nIs it OK to save?")
+
+    if is_ok:
+      self.update_file()
 
   def update_website(self):
     website_value: str = website_entry.get()
@@ -40,8 +45,7 @@ class Password:
   def update_file(self):
     ## https://www.w3schools.com/python/python_file_write.asp
     password_file = open("passwords.txt", "a")
-    ## adding \n to create new line after each entry
-    ### https://stackoverflow.com/questions/2918362/writing-string-to-a-file-on-a-new-line-every-time
+    ## adding \n to create new line after each entry - https://stackoverflow.com/questions/2918362/writing-string-to-a-file-on-a-new-line-every-time
     password_file.write(f"{self.website} | {self.email} | {self.password}\n")
     password_file.close()
 
