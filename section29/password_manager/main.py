@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 from random import randint, choice, shuffle
+import pyperclip
 
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
@@ -22,7 +23,7 @@ class Password:
 
     if not self.errors:
       # returns boolean with user answer
-      is_ok = messagebox.askokcancel(title="Title", message=f"These are the details you entered: \nEmail: {self.email} \nPassword: {self.password} \nIs it OK to save?")
+      is_ok = messagebox.askokcancel(title="Title", message=f"These are the details you entered: \nWebsite: {self.website} \nEmail: {self.email} \nPassword: {self.password} \nIs it OK to save?")
       if is_ok:
         self.clear_fields()
         self.update_file()
@@ -74,9 +75,9 @@ class Password:
     password = "".join(password_list)
     self.password = password
     password_entry.insert(0, password)
+    pyperclip.copy(password)
 
-    print(f"Your password is: {password}")
-
+    # print(f"Your password is: {password}")
 
 # ---------------------------- UI SETUP ------------------------------- #
 
