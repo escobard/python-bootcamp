@@ -33,23 +33,35 @@ class Password:
     ## https://tkdocs.com/tutorial/widgets.html#entry
     website_entry.delete(0, "end")
     password_entry.delete(0, "end")
+    self.json_data = {}
     # commenting delete for now, until favorite email is fetched from file
     # email_entry.delete(0, "end")
 
   def update_file(self):
     ## use python's JSON module to manage json data - https://docs.python.org/3/library/json.html
-    password_file = open("data.json", "w")
+    ## first read data from file
+    with open("data.json", "r") as password_file:
 
-    self.json_data = {
-      self.website: {
-        "email": self.email,
-        "password": self.password
+      self.json_data = {
+        self.website: {
+          "email": self.email,
+          "password": self.password
+        }
       }
-    }
 
-    # json.dumb(dataToInsert, fileToInsertDataTo, indentSpaces)
-    json.dump(self.json_data, password_file, indent=4)
-    password_file.close()
+      # json.dumb(dataToInsert, fileToInsertDataTo, indentSpaces)
+      # json.dump(self.json_data, password_file, indent=4)
+
+      # loads JSON data
+      data = json.load(password_file)
+      # updates json data with new json data
+      data.update(self.json_data)
+
+    ## replace existing data in file with updated data
+    with open("data.json", "w") as password_file:
+      # dumps json data back into the file
+      json.dump(data, password_file, indent=4)
+
 
   def load_json(self):
     password_file = open("data.json", "r")
