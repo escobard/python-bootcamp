@@ -1,10 +1,11 @@
 from tkinter import *
 from tkinter import messagebox
+from random import randint, choice, shuffle
 
-# ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
+## chose to build solution with a class to practice OOP, could have been simpler to keep it as pure functions
 class Password:
 
   def __init__(self):
@@ -14,36 +15,25 @@ class Password:
     self.errors: bool = False
 
   def update_values(self):
-    self.update_website()
-    self.update_email()
-    self.update_password()
+    self.website = website_entry.get()
+    self.email = email_entry.get()
+    self.password = password_entry.get()
     self.validate_entries()
 
     if not self.errors:
       # returns boolean with user answer
-      is_ok = messagebox.askokcancel(title="Title",
-                                     message=f"These are the details you entered: \nEmail: {self.email} \nPassword: {self.password} \nIs it OK to save?")
+      is_ok = messagebox.askokcancel(title="Title", message=f"These are the details you entered: \nEmail: {self.email} \nPassword: {self.password} \nIs it OK to save?")
       if is_ok:
+        self.clear_fields()
         self.update_file()
 
-  def update_website(self):
-    website_value: str = website_entry.get()
-    self.website = website_value
+  def clear_fields(self):
     # delete entry value
     ## https://tkdocs.com/tutorial/widgets.html#entry
     website_entry.delete(0, "end")
-
-  def update_email(self):
-    email_value: str = email_entry.get()
-    self.email = email_value
-
-    # commenting delete for now, until favorite email is fetched from file
-    #email_entry.delete(0, "end")
-
-  def update_password(self):
-    password_value: str = password_entry.get()
-    self.password = password_value
     password_entry.delete(0, "end")
+    # commenting delete for now, until favorite email is fetched from file
+    # email_entry.delete(0, "end")
 
   def update_file(self):
     ## https://www.w3schools.com/python/python_file_write.asp
@@ -58,6 +48,34 @@ class Password:
       messagebox.showinfo(title="Error", message="Please make sure you haven't left any fields empty.")
     else:
       self.errors = False
+
+  # ---------------------------- PASSWORD GENERATOR ------------------------------- #
+
+  def generate_password(self):
+
+    ## from password generator project on day/section 5!
+
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
+               'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+               'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
+
+    # remove forloops by using list comprehension
+    password_letters = [choice(letters) for _ in range(randint(8, 10))]
+    password_symbols = [choice(symbols) for _ in range(randint(2, 4))]
+    password_numbers = [choice(numbers) for _ in range(randint(2, 4))]
+
+    password_list = password_letters + password_symbols + password_numbers;
+
+    shuffle(password_list)
+
+    # appends all characters from a list to a string
+    password = "".join(password_list)
+    self.password = password
+    password_entry.insert(0, password)
+
+    print(f"Your password is: {password}")
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -100,7 +118,7 @@ password_entry = Entry(width=35)
 password_entry.grid(row=3, column=1)
 
 # Buttons
-generate_password_button = Button(text="Generate Password")
+generate_password_button = Button(text="Generate Password", command=password_store.generate_password)
 generate_password_button.grid(row=3, column=2, sticky=EW)
 add_button = Button(text="Add", width=36, command=password_store.update_values)
 add_button.grid(row=4, column=1, columnspan=2, sticky=EW)
