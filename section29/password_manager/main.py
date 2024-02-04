@@ -20,10 +20,9 @@ class Password:
     self.validate_entries()
 
     if not self.errors:
-      # messagebox methods of tkinter
+      # returns boolean with user answer
       is_ok = messagebox.askokcancel(title="Title",
                                      message=f"These are the details you entered: \nEmail: {self.email} \nPassword: {self.password} \nIs it OK to save?")
-
       if is_ok:
         self.update_file()
 
@@ -56,7 +55,7 @@ class Password:
   def validate_entries(self):
     if len(self.website) == 0 or len(self.email) == 0 or len(self.password) == 0:
       self.errors = True
-      messagebox.showinfo(title="Error", message="Please make sure all fields have values!")
+      messagebox.showinfo(title="Error", message="Please make sure you haven't left any fields empty.")
     else:
       self.errors = False
 
