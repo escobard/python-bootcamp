@@ -39,15 +39,23 @@ class Password:
   def update_file(self):
     ## use python's JSON module to manage json data - https://docs.python.org/3/library/json.html
     password_file = open("data.json", "w")
+
     self.json_data = {
       self.website: {
         "email": self.email,
         "password": self.password
       }
     }
-    # json.dumb(dataToInsert, fileToInsertDataTo)
-    json.dump(self.json_data, password_file)
+
+    # json.dumb(dataToInsert, fileToInsertDataTo, indentSpaces)
+    json.dump(self.json_data, password_file, indent=4)
     password_file.close()
+
+  def load_json(self):
+    password_file = open("data.json", "r")
+    data = json.load(password_file)
+    ## converts json data to python dictionary
+    print(type(data))
 
   def validate_entries(self):
     if len(self.website) == 0 or len(self.email) == 0 or len(self.password) == 0:
