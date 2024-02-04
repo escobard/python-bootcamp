@@ -11,17 +11,21 @@ class Password:
     self.website: str = ""
     self.email: str = ""
     self.password: str = ""
+    self.errors: bool = False
 
   def update_values(self):
     self.update_website()
     self.update_email()
     self.update_password()
+    self.validate_entries()
 
-    # messagebox methods of tkinter
-    is_ok = messagebox.askokcancel(title="Title", message=f"These are the details you entered: \nEmail: {self.email} \nPassword: {self.password} \nIs it OK to save?")
+    if not self.errors:
+      # messagebox methods of tkinter
+      is_ok = messagebox.askokcancel(title="Title",
+                                     message=f"These are the details you entered: \nEmail: {self.email} \nPassword: {self.password} \nIs it OK to save?")
 
-    if is_ok:
-      self.update_file()
+      if is_ok:
+        self.update_file()
 
   def update_website(self):
     website_value: str = website_entry.get()
@@ -48,6 +52,13 @@ class Password:
     ## adding \n to create new line after each entry - https://stackoverflow.com/questions/2918362/writing-string-to-a-file-on-a-new-line-every-time
     password_file.write(f"{self.website} | {self.email} | {self.password}\n")
     password_file.close()
+
+  def validate_entries(self):
+    if len(self.website) == 0 or len(self.email) == 0 or len(self.password) == 0:
+      self.errors = True
+      messagebox.showinfo(title="Error", message="Please make sure all fields have values!")
+    else:
+      self.errors = False
 
 
 # ---------------------------- UI SETUP ------------------------------- #
