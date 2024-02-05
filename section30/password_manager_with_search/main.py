@@ -66,6 +66,8 @@ class Password:
         print("Updated file with:", self.json_data)
         json.dump(data, password_file, indent=4)
 
+  def search_website(self):
+    print("something")
 
   def load_json(self):
     password_file = open("data.json", "r")
@@ -150,6 +152,8 @@ password_entry = Entry(width=35)
 password_entry.grid(row=3, column=1)
 
 # Buttons
+search_button = Button(text="Search", command=password_store.search_website)
+search_button.grid(row=1, column=2, sticky=EW)
 generate_password_button = Button(text="Generate Password", command=password_store.generate_password)
 generate_password_button.grid(row=3, column=2, sticky=EW)
 add_button = Button(text="Add", width=36, command=password_store.update_values)
