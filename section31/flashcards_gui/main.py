@@ -3,6 +3,7 @@
 #
 # 2. Pick a random French word/translation and put the word into the flashcard. Every time you press the ❌ or ✅ buttons, it should generate a new random word to display. e.g.
 import pandas
+import random
 
 
 class Flashcards:
@@ -11,12 +12,18 @@ class Flashcards:
     self.language: str = ""
     self.word: str = ""
     self.words_dictionary: list[dict] = [{}]
+    self.load_words()
 
   def load_words(self):
     words_file = pandas.read_csv("./data/french_words.csv")
     self.words_dictionary = words_file.to_dict(orient="records")
     print(self.words_dictionary)
 
+  def random_word_french(self):
+    self.language = "French"
+    random_choice = random.choices(self.words_dictionary)
+    self.word = random_choice[0][self.language]
+    canvas.itemconfig(word_text, text=self.word)
 
 flashcards_store = Flashcards()
 
@@ -52,8 +59,8 @@ canvas.create_image(400, 263, image=card_image)
 canvas.config(bg=BACKGROUND_COLOR, highlightthickness=0)
 
 # canvas text
-canvas.create_text(400, 150, font=("Ariel", 40, "italic"), text="French", fill="black")
-canvas.create_text(400, 263, font=("Ariel", 60, "bold"), text="trouve", fill="black")
+language_text = canvas.create_text(400, 150, font=("Ariel", 40, "italic"), text="French", fill="black")
+word_text = canvas.create_text(400, 263, font=("Ariel", 60, "bold"), text="trouve", fill="black")
 
 # columnspan is required to ensure flashcard object takes two columns' worth of space, otherwise buttons become misaligned
 canvas.grid(row=0, column=0, columnspan=2)
@@ -62,13 +69,13 @@ canvas.grid(row=0, column=0, columnspan=2)
 
 right_image = PhotoImage(file="./images/right.png")
 known_button = Button(image=right_image, highlightthickness=0, bg=BACKGROUND_COLOR, borderwidth=0,
-                      command=flashcards_store.load_words)
+                      command=flashcards_store.random_word_french)
 
 known_button.grid(row=1, column=1)
 
 wrong_image = PhotoImage(file="./images/wrong.png")
 unknown_button = Button(image=wrong_image, highlightthickness=0, bg=BACKGROUND_COLOR, borderwidth=0,
-                        command=flashcards_store.load_words)
+                        command=flashcards_store.random_word_french)
 unknown_button.grid(row=1, column=0)
 
 window.mainloop()
