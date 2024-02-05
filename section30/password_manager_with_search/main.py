@@ -66,8 +66,18 @@ class Password:
         print("Updated file with:", self.json_data)
         json.dump(data, password_file, indent=4)
 
-  def search_website(self):
-    print("something")
+  def find_password(self):
+    print("Finding password for website...")
+    self.website = website_entry.get()
+    with open("data.json", "r") as password_file:
+      # creates a dictionary from JSON data
+      data = json.load(password_file)
+      # checks to see if website value has a key in data dictionary
+      if self.website in data:
+        # show message box with website and password if website is found
+      else:
+        # show messagebox with the text no data file found
+
 
   def load_json(self):
     password_file = open("data.json", "r")
@@ -152,7 +162,7 @@ password_entry = Entry(width=35)
 password_entry.grid(row=3, column=1)
 
 # Buttons
-search_button = Button(text="Search", command=password_store.search_website)
+search_button = Button(text="Search", command=password_store.find_password)
 search_button.grid(row=1, column=2, sticky=EW)
 generate_password_button = Button(text="Generate Password", command=password_store.generate_password)
 generate_password_button.grid(row=3, column=2, sticky=EW)
