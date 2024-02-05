@@ -8,7 +8,7 @@ import json
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 
 ## chose to build solution with a class to practice OOP, could have been simpler to keep it as pure functions
-class Password:
+class Credentials:
 
   def __init__(self):
     self.website: str = ""
@@ -87,7 +87,6 @@ class Password:
       print("File was not found.")
       messagebox.showinfo(title="No data", message="No data files found")
 
-
   def load_json(self):
     password_file = open("data.json", "r")
     data = json.load(password_file)
@@ -133,7 +132,7 @@ class Password:
 
 # ---------------------------- UI SETUP ------------------------------- #
 
-password_store = Password()
+credentials_store = Credentials()
 
 window = Tk()
 window.title("Password manager")
@@ -171,11 +170,11 @@ password_entry = Entry(width=35)
 password_entry.grid(row=3, column=1)
 
 # Buttons
-search_button = Button(text="Search", command=password_store.find_password)
+search_button = Button(text="Search", command=credentials_store.find_password)
 search_button.grid(row=1, column=2, sticky=EW)
-generate_password_button = Button(text="Generate Password", command=password_store.generate_password)
+generate_password_button = Button(text="Generate Password", command=credentials_store.generate_password)
 generate_password_button.grid(row=3, column=2, sticky=EW)
-add_button = Button(text="Add", width=36, command=password_store.update_values)
+add_button = Button(text="Add", width=36, command=credentials_store.update_values)
 add_button.grid(row=4, column=1, columnspan=2, sticky=EW)
 
 window.mainloop()
