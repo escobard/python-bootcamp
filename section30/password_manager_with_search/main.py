@@ -57,6 +57,7 @@ class Password:
       with open("data.json", "w") as password_file:
         # dumps json data back into the file
         json.dump(self.json_data, password_file, indent=4)
+        print("File created with:", self.json_data)
     else:
       with open("data.json", "r") as password_file:
         print("Loading file's data...")
@@ -70,17 +71,21 @@ class Password:
   def find_password(self):
     print("Finding password for website...")
     self.website = website_entry.get()
-    with open("data.json", "r") as password_file:
-      # creates a dictionary from JSON data
-      data = json.load(password_file)
-      # checks to see if website value has a key in data dictionary
-      if self.website in data:
-        print("Website found!", data[self.website])
-        # show message box with website and password if website is found
-        messagebox.showinfo(title="Website found", message=f"Website: {self.website} \nEmail: {data[self.website]["email"]} \nPassword: {data[self.website]["password"]}")
-      else:
-        print("Website not found.")
-        messagebox.showinfo(title="Website not found", message=f"No details for the website exist.")
+    try:
+      with open("data.json", "r") as password_file:
+        # creates a dictionary from JSON data
+        data = json.load(password_file)
+        # checks to see if website value has a key in data dictionary
+        if self.website in data:
+          print("Credentials for website found!", data[self.website])
+          # show message box with website and password if website is found
+          messagebox.showinfo(title="Website found", message=f"Website: {self.website} \nEmail: {data[self.website]["email"]} \nPassword: {data[self.website]["password"]}")
+        else:
+          print("Website not found.")
+          messagebox.showinfo(title="Website not found", message=f"No details for the website exist.")
+    except FileNotFoundError:
+      print("File was not found.")
+      messagebox.showinfo(title="No data", message="No data files found")
 
 
   def load_json(self):
