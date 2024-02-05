@@ -24,7 +24,8 @@ class Password:
     self.validate_entries()
 
     if not self.errors:
-      # returns boolean with user answer
+      is_ok = messagebox.askokcancel(title="Title", message=f"These are the details you entered: \nWebsite: {self.website} \nEmail: {self.email} \nPassword: {self.password} \nIs it OK to save?")
+      if is_ok:
         self.update_file()
         self.clear_fields()
 
@@ -50,7 +51,7 @@ class Password:
       with open("data.json", "r") as password_file:
         print("File was found!")
     except FileNotFoundError:
-      print("File was not found!")
+      print("File was not found.")
       ## replace existing data in file with updated data
       print("Creating file with new data...")
       with open("data.json", "w") as password_file:
@@ -74,9 +75,12 @@ class Password:
       data = json.load(password_file)
       # checks to see if website value has a key in data dictionary
       if self.website in data:
+        print("Website found!", data[self.website])
         # show message box with website and password if website is found
+        messagebox.showinfo(title="Website found", message=f"Website: {self.website} \nEmail: {data[self.website]["email"]} \nPassword: {data[self.website]["password"]}")
       else:
-        # show messagebox with the text no data file found
+        print("Website not found.")
+        messagebox.showinfo(title="Website not found", message=f"No details for the website exist.")
 
 
   def load_json(self):
