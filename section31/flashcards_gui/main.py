@@ -22,6 +22,21 @@ window.title("Flashy")
 window.config(padx=50, pady=50, bg=BACKGROUND_COLOR)
 
 canvas = Canvas(width=800, height=526, highlightthickness=0, bg=BACKGROUND_COLOR)
-canvas.pack()
+# required to create a canvas with a grid
+canvas.grid(row=0, column=1)
+
+# image buttons
+card_image = PhotoImage(file="./images/card_front.png")
+card_button = Button(image=card_image, highlightthickness=0, bg=BACKGROUND_COLOR, borderwidth=0)
+card_button.grid(row=0, column=1, columnspan=2)
+
+right_image = PhotoImage(file="./images/right.png")
+right_button = Button(image=right_image, highlightthickness=0, bg=BACKGROUND_COLOR, borderwidth=0)
+right_button.grid(row=1, column=2, sticky=EW)
+
+wrong_image = PhotoImage(file="./images/wrong.png")
+wrong_button = Button(image=wrong_image, highlightthickness=0, bg=BACKGROUND_COLOR, borderwidth=0)
+wrong_button.grid(row=1, column=0, sticky=EW)
+
 
 window.mainloop()
