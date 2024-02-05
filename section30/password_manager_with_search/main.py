@@ -25,8 +25,8 @@ class Password:
 
     if not self.errors:
       # returns boolean with user answer
-        self.clear_fields()
         self.update_file()
+        self.clear_fields()
 
   def clear_fields(self):
     # delete entry value
@@ -48,22 +48,22 @@ class Password:
     ## first read data from file
     try:
       with open("data.json", "r") as password_file:
-        print("File was found")
+        print("File was found!")
     except FileNotFoundError:
-      print("File was not found")
+      print("File was not found!")
       ## replace existing data in file with updated data
-      print("Creating file")
+      print("Creating file with new data...")
       with open("data.json", "w") as password_file:
         # dumps json data back into the file
         json.dump(self.json_data, password_file, indent=4)
     else:
       with open("data.json", "r") as password_file:
-        print("Loading file's data")
+        print("Loading file's data...")
         data = json.load(password_file)
         # updates json data with new json data
         data.update(self.json_data)
       with open("data.json", "w") as password_file:
-        print("Updating file with", self.json_data)
+        print("Updated file with:", self.json_data)
         json.dump(data, password_file, indent=4)
 
 
