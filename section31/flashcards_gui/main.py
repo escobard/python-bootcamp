@@ -11,6 +11,7 @@ class Flashcards:
   def __init__(self):
     self.language: str = "French"
     self.word: str = "trouve"
+    self.word_list: dict = {"French": "perdu", "English": "lost"}
     self.words_dictionary: list[dict] = [{}]
     self.load_words()
 
@@ -21,8 +22,21 @@ class Flashcards:
     print(self.words_dictionary)
 
   def next_card(self):
+    self.language = "French"
+    canvas.itemconfig(language_text, text=self.language)
     random_choice = random.choices(self.words_dictionary)
-    self.word = random_choice[0][self.language]
+    self.word_list = random_choice[0]
+    self.word = self.word_list[self.language]
+    canvas.itemconfig(word_text, text=self.word)
+
+  # STEP 3
+  # 1. After a delay of 3s (3000ms), the card should flip and display the English translation for the current word.
+  #
+  # 2. The card image should change to the card_back.png and the text colour should change to white. The title of the card should change to "English" from "French".
+  def reveal_answer(self):
+    self.language = "English"
+    canvas.itemconfig(language_text, text=self.language)
+    self.word = self.word_list[self.language]
     canvas.itemconfig(word_text, text=self.word)
 
 
@@ -76,7 +90,7 @@ known_button.grid(row=1, column=1)
 
 wrong_image = PhotoImage(file="./images/wrong.png")
 unknown_button = Button(image=wrong_image, highlightthickness=0, bg=BACKGROUND_COLOR, borderwidth=0,
-                        command=flashcards_store.next_card)
+                        command=flashcards_store.reveal_answer)
 unknown_button.grid(row=1, column=0)
 
 window.mainloop()
