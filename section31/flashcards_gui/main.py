@@ -23,22 +23,23 @@ class Flashcards:
 
   def next_card(self):
     self.language = "French"
-    canvas.itemconfig(language_text, text=self.language)
+    canvas.itemconfig(language_text, text=self.language, fill="black")
     random_choice = random.choices(self.words_dictionary)
     self.word_list = random_choice[0]
     self.word = self.word_list[self.language]
-    canvas.itemconfig(word_text, text=self.word)
+    canvas.itemconfig(word_text, text=self.word, fill="black")
+    window.after(3000, func=self.reveal_answer)
 
   # STEP 3
   # 1. After a delay of 3s (3000ms), the card should flip and display the English translation for the current word.
   #
   # 2. The card image should change to the card_back.png and the text colour should change to white. The title of the card should change to "English" from "French".
   def reveal_answer(self):
-    window.after(3000, self.reveal_answer())
     self.language = "English"
-    canvas.itemconfig(language_text, text=self.language)
+    canvas.itemconfig(language_text, text=self.language, fill="white")
     self.word = self.word_list[self.language]
-    canvas.itemconfig(word_text, text=self.word)
+    canvas.itemconfig(word_text, text=self.word, fill="white")
+    canvas.itemconfig(card_background, image=card_back_image)
 
 
 # STEP 1
@@ -65,13 +66,12 @@ window = Tk()
 window.title("Flashy")
 window.config(padx=50, pady=50, bg=BACKGROUND_COLOR)
 
-
-
 canvas = Canvas(width=800, height=526, highlightthickness=0, bg=BACKGROUND_COLOR)
 
 # card image
-card_image = PhotoImage(file="./images/card_front.png")
-canvas.create_image(400, 263, image=card_image)
+card_front_image = PhotoImage(file="./images/card_front.png")
+card_back_image = PhotoImage(file="./images/card_back.png")
+card_background = canvas.create_image(400, 263, image=card_front_image)
 canvas.config(bg=BACKGROUND_COLOR, highlightthickness=0)
 
 # canvas text
