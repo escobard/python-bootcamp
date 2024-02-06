@@ -42,6 +42,7 @@ class Flashcards:
 
   def store_words_to_learn(self):
     # remove found words from known list of words
+    ## .remove() accepts any type of data that is a child of the list - eg, if the child is a dictionary, a full dictionary is expected to remove the dictionary from parent list
     self.words_to_learn.remove(self.word_list)
 
     # STEP 4
