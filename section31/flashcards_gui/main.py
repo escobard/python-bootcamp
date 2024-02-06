@@ -13,6 +13,7 @@ class Flashcards:
     self.word: str = "trouve"
     self.word_list: dict = {"French": "perdu", "English": "lost"}
     self.words_dictionary: list[dict] = [self.word_list]
+    self.words_to_learn: list[dict] = [self.word_list]
     self.flip_timer = window.after(3000, func=self.flip_card)
     self.load_words()
 
@@ -21,6 +22,7 @@ class Flashcards:
 
     # creates each column in a {row:value} format
     self.words_dictionary = words_file.to_dict(orient="records")
+    self.words_to_learn = words_file.to_dict(orient="records")
     print(self.words_dictionary)
 
   def next_card(self):
@@ -31,6 +33,7 @@ class Flashcards:
 # 1. When the user presses on the ✅ button, it means that they know the current word on the flashcard and that word should be removed from the list of words that might come up.
 # 2. The updated data should be saved to a new file called words_to_learn.csv
 # 3. The next time the program is run, it should check if there is a words_to_learn.csv file. If it exists, the program should use those words to put on the flashcards. If the words_to_learn.csv does not exist (i.e., the first time the program is run), then it should use the words in the french_words.csv. We want our flashcard program to only test us on things we don't know. So if the user presses the ✅ button, that means the current card should not come up again.
+    self.words_to_learn.remove(self.word_list)
 
     self.language = "French"
     canvas.itemconfig(language_text, text=self.language, fill="black")
