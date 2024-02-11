@@ -8,6 +8,11 @@
 
 # 4. Send the letter generated in step 3 to that person's email address.
 
+import pandas
 
+birthday_data = pandas.read_csv("birthdays.csv")
+
+birthday_list = birthday_data.to_dict()
+print(birthday_list)
 
 
