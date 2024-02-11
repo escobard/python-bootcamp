@@ -11,17 +11,20 @@
 import pandas
 import datetime as dt
 import random
+import smtplib
+
+email = "escobardtraining@gmail.com"
+password = "tpsx mkhh gfpp zxnf"
+
+email_to = "escobardautomation@yahoo.com"
 
 ## extract birthday data from csv
 birthday_data = pandas.read_csv("birthdays.csv")
 
 birthday_list = birthday_data.to_dict()
-print(birthday_data)
 
 ## set today's date to check birthday data
 today = dt.datetime.now()
-print(today.month)
-print(birthday_list["month"])
 
 if today.year in birthday_list["year"].values() and today.month in birthday_list["month"].values() and today.day in birthday_list["day"].values():
   print('True!')
@@ -33,6 +36,13 @@ if today.year in birthday_list["year"].values() and today.month in birthday_list
   ## replace the [NAME] with the person's actual name
   with open(random_letter) as letter:
     data = letter.read().replace("[NAME]", "Name")
-    print(data)
 
-  ## send the letter generated to that person's email address
+    ## send the letter generated to that person's email address
+    with smtplib.SMTP("smtp.gmail.com", port=587) as gmail_connection:
+      gmail_connection.starttls()
+      gmail_connection.login(user=email, password=password)
+      gmail_connection.sendmail(
+        from_addr=email,
+        to_addrs=email_to,
+        msg=f"Subject:Happy birthday!\n\n{data}")
+
