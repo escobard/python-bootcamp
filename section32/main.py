@@ -1,35 +1,24 @@
-# import smtplib
-#
-# email = "escobardautomation@gmail.com"
-# # google does not allow you to use the password rquired to login, must instead use a 2fa password
-# ## https://support.google.com/accounts/answer/185833?hl=en
-# password = "hmtv yifz sazc dbgo"
-#
-# email_to = "escobardautomation@yahoo.com"
-#
-# # creates a connection to email provider
-# ## every email provider has a different SMTP address
-# gmail_connection = smtplib.SMTP("smtp.gmail.com", port=587)
-# # establishes connection with provider
-# gmail_connection.starttls()
-# gmail_connection.login(user=email, password=password)
-# # email without a subject is likely to be flagged as spam!
-# gmail_connection.sendmail(from_addr=email, to_addrs=email_to, msg="Subject:Hello\n\nThis is the body of the email")
-# # closes the connection to smtp client
-# gmail_connection.close()
-#
-# # can avoid the .close() method by using the with loop to connect to smtp
-# ## eg, with smtplib.smtp() as gmail_connection:
+import random
+# challenge - send a motivational quote to the target email address every week on Tuesday
 
-import datetime as dt
+## open file and store contents as list
+with open("quotes.txt") as quotes_file:
+  file_data = quotes_file.readlines()
+  # pick a random quote
+  random_quote = random.choices(file_data)
+  print(random_quote)
 
-## prints current date and time
-now = dt.datetime.now()
-## can select specific parts of the date to make date easier to parse and manipulate programatically
-year = now.min
-## gives you a day of the week
-day_of_week = now.weekday()
+## send email quote
+import smtplib
 
-## can create a date with specific values - like with js new Date
-date_of_birth = dt.datetime(year=1990, month=8, day=22)
-print(date_of_birth)
+email = "escobardtraining@gmail.com"
+password = "tpsx mkhh gfpp zxnf"
+
+email_to = "escobardautomation@yahoo.com"
+
+gmail_connection = smtplib.SMTP("smtp.gmail.com", port=587)
+
+gmail_connection.starttls()
+gmail_connection.login(user=email, password=password)
+gmail_connection.sendmail(from_addr=email, to_addrs=email_to, msg=f"Subject:Weekly quote\n\n{random_quote[0]}")
+gmail_connection.close()

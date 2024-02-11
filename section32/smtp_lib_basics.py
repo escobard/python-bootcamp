@@ -3,7 +3,7 @@ import smtplib
 email = "escobardautomation@gmail.com"
 # google does not allow you to use the password rquired to login, must instead use a 2fa password
 ## https://support.google.com/accounts/answer/185833?hl=en
-password = "hmtv yifz sazc dbgo"
+password = "gvpu zono atvt gmao"
 
 email_to = "escobardautomation@yahoo.com"
 
