@@ -20,5 +20,15 @@ gmail_connection = smtplib.SMTP("smtp.gmail.com", port=587)
 
 gmail_connection.starttls()
 gmail_connection.login(user=email, password=password)
-gmail_connection.sendmail(from_addr=email, to_addrs=email_to, msg=f"Subject:Weekly quote\n\n{random_quote[0]}")
-gmail_connection.close()
+
+## check if day of the week is sunday, and send email if it is
+import datetime as dt
+
+now = dt.datetime.now()
+day_of_week = now.weekday()
+
+if day_of_week == 6:
+  gmail_connection.sendmail(from_addr=email, to_addrs=email_to, msg=f"Subject:Weekly quote\n\n{random_quote[0]}")
+  gmail_connection.close()
+else:
+  gmail_connection.close()
