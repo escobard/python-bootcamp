@@ -40,18 +40,27 @@ class QuizInterface:
     self.window.mainloop()
 
   def get_next_question(self):
-    q_text = self.quiz.next_question()
-    self.canvas.itemconfig(self.question_text, text=q_text)
+    self.canvas.config(bg="white")
+    if self.quiz.still_has_questions():
+      self.score_label.config(text=f"Score: {self.quiz.score} / {len(self.quiz.question_list)}")
+      q_text = self.quiz.next_question()
+      self.canvas.itemconfig(self.question_text, text=q_text)
+    else:
+      self.canvas.itemconfig(self.question_text, text="You've reached the end of the quiz!")
+
+      ## disable tkinter ui element
+      self.true_button.config(state="disabled")
+      self.false_button.config(state="disabled")
 
   def press_true_button(self):
-    self.quiz.check_answer('True')
-    self.update_scoreboard()
-    self.get_next_question()
+    self.give_feedback(self.quiz.check_answer('True'))
 
   def press_false_button(self):
-    self.quiz.check_answer('False')
-    self.update_scoreboard()
-    self.get_next_question()
+    self.give_feedback(self.quiz.check_answer('False'))
 
-  def update_scoreboard(self):
-    self.canvas.itemconfig(self.question_text, text=f"Score: {self.quiz.score}")
+  def give_feedback(self, is_right: bool):
+    if is_right:
+      self.canvas.config(bg="green")
+    else:
+      self.canvas.config(bg="red")
+    self.window.after(1000, self.get_next_question)
