@@ -1,5 +1,7 @@
 import requests
 
+owm_endpoint = "https://api.openweathermap.org/data/2.5/forecast"
+
 api_key = "82a5bd518c48cfee0874b684b5c86dca"
 
 parameters = {
@@ -8,7 +10,7 @@ parameters = {
   "appid": api_key
 }
 
-response = requests.get(url="https://api.openweathermap.org/data/2.5/weather?", params=parameters)
+response = requests.get(url=owm_endpoint, params=parameters)
 
 response.raise_for_status()
 weather_data = response.json()
