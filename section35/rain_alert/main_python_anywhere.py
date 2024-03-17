@@ -7,11 +7,13 @@ proxy_client = TwilioHttpClient()
 proxy_client.session.proxies = {'https': os.environ['https_proxy']}
 
 account_sid = "AC52978fa2d4d7e687a9503d47fb6e7dca"
-auth_token = "27c0263646a9d3fb2e7c28f7e6d6873f"
+auth_token = os.environ.get("AUTH_TOKEN")
 
 owm_endpoint = "https://api.openweathermap.org/data/2.5/forecast"
 
-api_key = "82a5bd518c48cfee0874b684b5c86dca"
+# can export into env variables same way as with js - using export, then consuming env variable
+## os.environ.get("") retrieves env value by key
+api_key = os.environ.get("OWM_API_KEY")
 
 parameters = {
   "lat": 51.0447,
