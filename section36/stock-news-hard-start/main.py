@@ -28,6 +28,8 @@ stock_price_yesterday = float(stock_data[stock_data_yesterday_key]["4. close"])
 stock_price_day_before_yesterday = float(stock_data[stock_data_day_before_yesterday_key]["4. close"])
 stock_price_percentage_change = (stock_price_day_before_yesterday / stock_price_yesterday) * 100
 print(stock_price_percentage_change)
+if stock_price_percentage_change >= 105:
+  print("Get news")
 
 ## STEP 2: Use https://newsapi.org/docs/endpoints/everything
 # Instead of printing ("Get News"), actually fetch the first 3 articles for the COMPANY_NAME. 
