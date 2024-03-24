@@ -1,5 +1,6 @@
 import os
 import requests
+from twilio.rest import Client
 
 STOCK = "TSLA"
 COMPANY_NAME = "Tesla Inc"
@@ -7,6 +8,11 @@ COMPANY_NAME = "Tesla Inc"
 STOCK_ENDPOINT = "https://www.alphavantage.co/query"
 
 NEWS_ENDPOINT = "https://newsapi.org/v2/everything"
+
+TWILIO_SID = os.environ.get('TWILIO_SID')
+TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN')
+TWILIO_VIRTUAL_NUMBER = os.environ.get('TWILIO_VIRTUAL_NUMBER')
+MY_NUMBER = os.environ.get('MY_NUMBER')
 
 ## STEP 1: Use https://www.alphavantage.co/
 # When STOCK price increase/decreases by 5% between yesterday and the day before yesterday then print("Get News").
@@ -50,24 +56,21 @@ news_parameters = {
 news_response = requests.get(url=NEWS_ENDPOINT, params=news_parameters)
 news_response.raise_for_status()
 # https://www.w3schools.com/python/ref_func_slice.asp
-top_3_articles = slice(3)
-news_data = news_response.json()['articles'][top_3_articles]
-print(news_data)
+## :3 is a shorthand for python's slice operator
+news_data = news_response.json()['articles'][:3]
+
 
 ## STEP 3: Use twilio.com/docs/sms/quickstart/python
 # Send a separate message with each article's title and description to your phone number. 
 #HINT 1: Consider using a List Comprehension.
+condensed_news_alert = [f"Stock:{news_parameters["q"]} \nStock change: {stock_price_percentage_change - 100}% \nHeadline: {article['title']}. \nBrief: {article['description']}" for article in news_data]
+print(condensed_news_alert)
 
-
-
-#Optional: Format the SMS message like this: 
-"""
-TSLA: 🔺2%
-Headline: Were Hedge Funds Right About Piling Into Tesla Inc. (TSLA)?. 
-Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and prominent investors are required to file by the SEC The 13F filings show the funds' and investors' portfolio positions as of March 31st, near the height of the coronavirus market crash.
-or
-"TSLA: 🔻5%
-Headline: Were Hedge Funds Right About Piling Into Tesla Inc. (TSLA)?. 
-Brief: We at Insider Monkey have gone over 821 13F filings that hedge funds and prominent investors are required to file by the SEC The 13F filings show the funds' and investors' portfolio positions as of March 31st, near the height of the coronavirus market crash.
-"""
-
+## send sms to twilio
+client = Client(TWILIO_SID, TWILIO_AUTH_TOKEN)
+for article in condensed_news_alert:
+  message = client.messages.create(
+    body=article,
+    from_=TWILIO_VIRTUAL_NUMBER,
+    to=MY_NUMBER
+)
