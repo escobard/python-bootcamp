@@ -2,6 +2,8 @@
 ## pixella website - https://pixe.la/
 ### navigating to "how to use" shows quick start instructions
 import requests
+from datetime import datetime
+
 USERNAME = 'escobard'
 TOKEN = 'random_token'
 GRAPH_NAME= 'python-code'
@@ -37,17 +39,32 @@ request_headers: dict[str, str] = {
 
 # response = requests.post(url=graph_endpoint, headers=request_headers, json=graph_parameters)
 # print(response.text)
-# graph can be seen at https://pixe.la/v1/users/escobard/graphs/python-code
+# graph can be seen at https://pixe.la/v1/users/escobard/graphs/python-code.html
 
 # step 3. post a pixel to the graph
 ## https://docs.pixe.la/entry/post-pixel
 
 graph_update_endpoint: str = f"https://pixe.la/v1/users/{USERNAME}/graphs/{GRAPH_NAME}"
 
+# can format python date times in several different ways
+## https://www.w3schools.com/python/python_datetime.asp
+today = datetime.now()
+formatted_date_time = today.strftime("%Y%m%d")
+
 graph_update_parameters: dict[str, str] = {
-  'date': '20240519',
+  'date': formatted_date_time,
   'quantity': '3'
 }
 
-response = requests.post(url=graph_update_endpoint, headers=request_headers, json=graph_update_parameters)
+# response = requests.post(url=graph_update_endpoint, headers=request_headers, json=graph_update_parameters)
+# print(response.text)
+
+# step 4. put pixel
+## https://docs.pixe.la/entry/put-graph
+graph_put_endpoint: str = f"{graph_update_endpoint}/{formatted_date_time}"
+graph_put_parameters = {
+  'quantity': '3'
+}
+
+response = requests.put(url=graph_put_endpoint, headers=request_headers, json=graph_put_parameters)
 print(response.text)
