@@ -66,5 +66,10 @@ graph_put_parameters = {
   'quantity': '3'
 }
 
-response = requests.put(url=graph_put_endpoint, headers=request_headers, json=graph_put_parameters)
-print(response.text)
+# response = requests.put(url=graph_put_endpoint, headers=request_headers, json=graph_put_parameters)
+# print(response.text)
+
+# step 5. delete pixel
+## https://docs.pixe.la/entry/delete-pixel
+# response = requests.delete(url=graph_put_endpoint, headers=request_headers)
+# print(response.text)
