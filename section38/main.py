@@ -12,6 +12,7 @@ from datetime import datetime
 APP_ID: str = os.environ.get('APP_ID')
 API_KEY: str = os.environ.get('API_KEY')
 SHEETY_API_KEY: str = os.environ.get('SHEETY_API_KEY')
+SHEETY_TOKEN: str = os.environ.get('SHEETY_TOKEN')
 
 nutritionix_endpoint: str = 'https://trackapi.nutritionix.com/v2/natural/exercise'
 
@@ -48,6 +49,10 @@ formatted_hours = today.strftime("%H:%M:%S")
 
 sheety_endpoint: str = f'https://api.sheety.co/{SHEETY_API_KEY}/workoutTracking/workouts'
 
+sheety_headers:  dict[str, str] = {
+  'Authorization': f'Basic {SHEETY_TOKEN}'
+}
+
 sheety_request_body: dict[str, dict[str, str]] = {
   'workout': {
     'date': formatted_date_time,
@@ -58,6 +63,6 @@ sheety_request_body: dict[str, dict[str, str]] = {
   }
 }
 
-sheety_request = requests.post(url=sheety_endpoint, json=sheety_request_body)
+sheety_request = requests.post(url=sheety_endpoint, headers=sheety_headers, json=sheety_request_body)
 
 print(sheety_request.text)
