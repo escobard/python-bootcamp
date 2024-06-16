@@ -1,5 +1,5 @@
 flight_thresholds_type = set[list[str]]
-flight_search_type = dict[dict[str, str]]
+flight_search_type = set[list[str]]
 flight_matches_type = set[list[str]]
 
 class DataModel:
@@ -14,5 +14,22 @@ class DataModel:
   def set_flight_thresholds(self, flight_thresholds: flight_thresholds_type) -> None:
     self.flight_thresholds = flight_thresholds
 
-  def get_flight_search(self):
-    return
+  def get_flight_search(self) -> flight_search_type:
+    return self.flight_search
+
+  def set_flight_search(self, flight_search: flight_search_type) -> None:
+    self.flight_search = flight_search
+
+  # update parameter type to match flight data
+  def update_flight_search(self, flight_search_result) -> None:
+    self.flight_search = self.flight_search.update(flight_search_result)
+
+  def get_flight_matches(self) -> flight_matches_type:
+    return self.flight_matches
+
+  def set_flight_matches(self, flight_match: flight_matches_type) -> None:
+    self.flight_matches = flight_match
+
+  # update parameter type to match flight data
+  def update_flight_matches(self, flight_match_result) -> None:
+    self.flight_matches = self.flight_matches.update(flight_match_result)
