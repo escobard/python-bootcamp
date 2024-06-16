@@ -1,4 +1,4 @@
-flight_thresholds_type = set[list[str]]
+flight_thresholds_type = dict[str, [list[dict[str:'city', str:'iataCode', str:'id']]]]
 flight_search_type = set[list[str]]
 flight_matches_type = set[list[str]]
 
