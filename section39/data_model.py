@@ -2,7 +2,6 @@ flight_thresholds_type = dict[str, [list[dict[str:'city', str:'iataCode', str:'i
 flight_search_type = set[list[str]]
 flight_matches_type = set[list[str]]
 
-
 class DataModel:
   def __init__(self):
     self.flight_thresholds: flight_thresholds_type | None = None
