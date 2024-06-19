@@ -56,6 +56,11 @@ class DataModel:
   def set_flight_thresholds(self, flight_thresholds: flight_thresholds_type) -> None:
     self.flight_thresholds = flight_thresholds
 
+  ## update types for origin_destinations accordingly
+  def set_flight_search_origin_destinations(self, origin_destinations, origin_destination_ids: list[int]) -> None:
+    self.flight_search_criteria['originDestinations'] = origin_destinations
+    self.flight_search_criteria['searchCriteria']['flightFilters']['cabinRestrictions'][0]['originDestinationIds'] = origin_destination_ids
+
   def get_flight_search(self) -> flight_search_type:
     return self.flight_search
 
