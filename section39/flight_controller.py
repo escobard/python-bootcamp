@@ -34,10 +34,9 @@ class FlightController:
 
   def fetch_flight_thresholds(self) -> None:
     sheety_request = requests.get(url=self.sheety_endpoint, headers=self.sheety_headers)
-    print(sheety_request.text)
     self.model.set_flight_thresholds(sheety_request.json())
 
-  def fetch_amadeus_jwt(self):
+  def fetch_amadeus_jwt(self) -> dict[str, str]:
     amadeus_auth_request = requests.post(
       url=self.amadeus_auth_url,
       data=self.amadeus_auth_body,
@@ -47,3 +46,18 @@ class FlightController:
       'Authorization': f'Bearer {amadeus_auth_request.json()['access_token']}'
     }
     return amadeus_auth_token
+
+  def populate_flight_search_criteria(self):
+    if self.model.get_flight_thresholds() is None:
+      print('No flight thresholds defined, fetching flight thresholds...')
+      self.fetch_flight_thresholds()
+      print('Flight thresholds fetched.')
+    else:
+      original_location_code: str = 'YYC'
+      ## improve with list comprehension
+      for flight_threshold in self.model.get_flight_thresholds():
+        ## call data model method to update originDestinations & originDestinationIds+
+
+        print()
+
+

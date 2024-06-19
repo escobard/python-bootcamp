@@ -10,7 +10,7 @@ from data_model import DataModel
 data_model = DataModel()
 flights = FlightController(data_model)
 
-## flights.fetch_flight_thresholds()
+flights.fetch_flight_thresholds()
 
-## print(data_model.get_flight_thresholds())
-print(flights.fetch_amadeus_jwt())
+print(data_model.get_flight_thresholds())
+##print(flights.fetch_amadeus_jwt())
