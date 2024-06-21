@@ -12,5 +12,5 @@ flights = FlightController(data_model)
 
 flights.fetch_flight_thresholds()
 
-print(data_model.get_flight_thresholds())
-##print(flights.fetch_amadeus_jwt())
+# print(data_model.get_flight_thresholds())
+flights.populate_flight_search_criteria()

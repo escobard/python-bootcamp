@@ -49,15 +49,16 @@ class FlightController:
 
   def populate_flight_search_criteria(self):
     if self.model.get_flight_thresholds() is None:
-      print('No flight thresholds defined, fetching flight thresholds...')
-      self.fetch_flight_thresholds()
-      print('Flight thresholds fetched.')
+      raise Exception('No flight thresholds defined')
     else:
       original_location_code: str = 'YYC'
       ## improve with list comprehension
-      for flight_threshold in self.model.get_flight_thresholds():
-        ## call data model method to update originDestinations & originDestinationIds+
+      ### https://stackoverflow.com/questions/522563/how-to-access-the-index-value-in-a-for-loop
+      origin_destinations: list[dict[str, str]] | list = []
+      origin_destinations_ids: list[str] | list = []
 
-        print()
+      for flight_threshold in self.model.get_flight_thresholds()['prices']:
+        origin_destinations.append(flight_threshold)
+        origin_destinations_ids.append(str(flight_threshold['id']))
 
-
+      self.model.set_flight_search_origin_destinations(origin_destinations, origin_destinations_ids)
