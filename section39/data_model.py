@@ -14,7 +14,7 @@ class DataModel:
     # build a type for this
     # rework to build list of query parameters for GET request only
     # https://developers.amadeus.com/self-service/category/flights/api-doc/flight-offers-search/api-reference
-    self.flight_search_criteria: flight_search_criteria_type | list = []
+    self.flight_search_criteria: flight_search_criteria_type | None = None
 
   def get_flight_thresholds(self) -> flight_thresholds_type:
     return self.flight_thresholds
@@ -45,3 +45,4 @@ class DataModel:
 
   def set_flight_matches(self, flight_match: flight_matches_type) -> None:
     self.flight_matches = flight_match
+    print(self.get_flight_matches())

@@ -3,7 +3,7 @@ import requests
 import datetime
 from dotenv import load_dotenv
 
-from data_model import DataModel, flight_search_criteria_type
+from data_model import DataModel, flight_search_criteria_type, flight_matches_type
 
 load_dotenv()
 
@@ -37,6 +37,7 @@ class FlightController:
 
   def fetch_flight_thresholds(self) -> None:
     sheety_request = requests.get(url=self.sheety_endpoint, headers=self.sheety_headers)
+    # add exception for when results are null
     self.model.set_flight_thresholds(sheety_request.json())
 
   def fetch_amadeus_jwt(self) -> dict[str, str]:
@@ -60,7 +61,7 @@ class FlightController:
       adults: int = 1
       currency: str = 'CAD'
       non_stop: str = 'true'
-      departure_date_six_months = datetime.datetime.now() + datetime.timedelta(days=1) + datetime.timedelta(days=6*30)
+      departure_date_six_months = datetime.datetime.now() + datetime.timedelta(days=1) + datetime.timedelta(days=6 * 30)
 
       # try to convert to list comprehension in part 2
       for flight_threshold in self.model.get_flight_thresholds()['prices']:
@@ -80,14 +81,27 @@ class FlightController:
   def retrieve_available_flights(self):
     self.populate_flight_search_criteria()
     jwt_headers = self.fetch_amadeus_jwt()
-    query_parameters = self.model.get_flight_search_criteria()
-    amadeus_available_flights_request = requests.get(url=self.amadeus_flight_search_url, params=query_parameters[2], headers=jwt_headers)
+    flight_search_criteria_list = self.model.get_flight_search_criteria()
+    flight_matches: flight_matches_type | list = []
 
-    for flight_match in amadeus_available_flights_request.json()['data']:
-      flight_match = {
-        'price': flight_match['price']['total'],
-        'origin_airport': query_parameters[2]['originLocationCode'],
-        'destination_airport': query_parameters[2]['destinationLocationCode'],
-        'out_date': flight_match['itineraries'][0]['segments'][0]['departure']['at']
-      }
-      print(flight_match)
+    for flight_search_criteria in flight_search_criteria_list:
+      amadeus_available_flights_request = requests.get(url=self.amadeus_flight_search_url,
+                                                       params=flight_search_criteria, headers=jwt_headers)
+
+      if amadeus_available_flights_request.json()['data']:
+        print(
+          f"Flights found for {flight_search_criteria['originLocationCode']} to {flight_search_criteria['destinationLocationCode']}")
+        for flight_match in amadeus_available_flights_request.json()['data']:
+          flight_match = {
+            'price': flight_match['price']['total'],
+            'origin_airport': flight_search_criteria['originLocationCode'],
+            'destination_airport': flight_search_criteria['destinationLocationCode'],
+            'out_date': flight_match['itineraries'][0]['segments'][0]['departure']['at']
+          }
+
+          flight_matches.append(flight_match)
+      else:
+        print(
+          f"Flights not found for {flight_search_criteria['originLocationCode']} to {flight_search_criteria['destinationLocationCode']}")
+
+    self.model.set_flight_matches(flight_matches)
