@@ -13,4 +13,4 @@ flights = FlightController(data_model)
 flights.fetch_flight_thresholds()
 
 # print(data_model.get_flight_thresholds())
-flights.populate_flight_search_criteria()
+flights.retrieve_available_flights()

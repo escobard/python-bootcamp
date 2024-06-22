@@ -33,6 +33,8 @@ class FlightController:
       'client_secret': self.AMADEUS_API_SECRET
     }
 
+    self.amadeus_flight_search_url: str = 'https://test.api.amadeus.com/v2/shopping/flight-offers'
+
   def fetch_flight_thresholds(self) -> None:
     sheety_request = requests.get(url=self.sheety_endpoint, headers=self.sheety_headers)
     self.model.set_flight_thresholds(sheety_request.json())
@@ -56,20 +58,26 @@ class FlightController:
       flight_search_criteria: flight_search_criteria_type | list = []
       original_location_code: str = 'YYC'
       adults: int = 1
-      departure_date_tomorrow = datetime.datetime.now() + datetime.timedelta(days=1)
-      departure_date_six_months = departure_date_tomorrow + datetime.timedelta(days=6*30)
-      print(departure_date_six_months.strftime('%Y-%m-%d'))
+      currency: str = 'CAD'
+      departure_date_six_months = datetime.datetime.now() + datetime.timedelta(days=1) + datetime.timedelta(days=6*30)
 
       # try to convert to list comprehension in part 2
       for flight_threshold in self.model.get_flight_thresholds()['prices']:
         flight_search_criteria.append({
           'originLocationCode': original_location_code,
           'destinationLocationCode': flight_threshold['iataCode'],
-          'departureDate': departure_date_six_months,
+          'departureDate': departure_date_six_months.strftime('%Y-%m-%d'),
           'adults': adults,
+          'currency': currency,
           'maxPrice': flight_threshold['lowestPrice']
         })
 
-      self.model.set_flight_search_thresholds(flight_search_criteria)
+      self.model.set_flight_search_criteria(flight_search_criteria)
 
   # build method to send GET requests to AMADEUS for each flight_search_criteria
+  def retrieve_available_flights(self):
+    self.populate_flight_search_criteria()
+    jwt_headers = self.fetch_amadeus_jwt()
+    query_parameters = self.model.get_flight_search_criteria()
+    amadeus_available_flights_request = requests.get(url=self.amadeus_flight_search_url, params=query_parameters[0], headers=jwt_headers)
+    print(amadeus_available_flights_request.json())
