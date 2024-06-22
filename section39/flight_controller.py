@@ -1,8 +1,9 @@
 import os
 import requests
+import datetime
 from dotenv import load_dotenv
 
-from data_model import DataModel
+from data_model import DataModel, flight_search_criteria_type
 
 load_dotenv()
 
@@ -52,27 +53,23 @@ class FlightController:
     if self.model.get_flight_thresholds() is None:
       raise Exception('No flight thresholds defined')
     else:
+      flight_search_criteria: flight_search_criteria_type | list = []
       original_location_code: str = 'YYC'
+      adults: int = 1
+      departure_date_tomorrow = datetime.datetime.now() + datetime.timedelta(days=1)
+      departure_date_six_months = departure_date_tomorrow + datetime.timedelta(days=6*30)
+      print(departure_date_six_months.strftime('%Y-%m-%d'))
 
-      origin_destinations: list[dict[str, str]] | list = []
-      origin_destinations_ids: list[str] | list = []
-
-      # hard to improve with comprehension, will leave as for loop
+      # try to convert to list comprehension in part 2
       for flight_threshold in self.model.get_flight_thresholds()['prices']:
-        formatted_flight_threshold: dict[str, str | dict[str, str]] = {
-          "id": str(flight_threshold['id']),
-          "originLocationCode": original_location_code,
-          "destinationLocationCode": flight_threshold['iataCode'],
-          "departureDateTimeRange": {
-            'date': 'test',
-            'time': 'test'
-          },
-          "maxPrice": flight_threshold['lowestPrice']
+        flight_search_criteria.append({
+          'originLocationCode': original_location_code,
+          'destinationLocationCode': flight_threshold['iataCode'],
+          'departureDate': departure_date_six_months,
+          'adults': adults,
+          'maxPrice': flight_threshold['lowestPrice']
+        })
 
-        }
-        origin_destinations.append(flight_threshold)
-        origin_destinations_ids.append(str(flight_threshold['id']))
-
-      self.model.set_flight_search_origin_destinations(origin_destinations, origin_destinations_ids)
+      self.model.set_flight_search_thresholds(flight_search_criteria)
 
   # build method to send GET requests to AMADEUS for each flight_search_criteria

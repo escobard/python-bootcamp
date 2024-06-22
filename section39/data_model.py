@@ -1,6 +1,6 @@
 flight_thresholds_type = dict[str:'prices', [list[dict[str:'city', str:'iataCode', str:'id']]]]
 # https://developers.amadeus.com/self-service/category/flights/api-doc/flight-offers-search/api-reference
-flight_search_criteria_type = list[dict[str: 'originLocationCode', str: 'destinationLocationCode', str: 'departureDate', str: 'departureDate', str: 'adults', str: 'maxPrice' ]]
+flight_search_criteria_type = list[dict[str: 'originLocationCode', str: 'destinationLocationCode', str: 'departureDate', str: 'adults', str: 'maxPrice' ]]
 flight_search_type = set[list[str]]
 flight_matches_type = set[list[str]]
 
@@ -29,7 +29,6 @@ class DataModel:
   ## update types for origin_destinations accordingly
   def set_flight_search_thresholds(self, flight_search_thresholds: flight_search_criteria_type) -> None:
     self.flight_search_criteria = flight_search_thresholds
-    print(self.get_flight_search_criteria())
 
   def get_flight_search(self) -> flight_search_type:
     return self.flight_search
