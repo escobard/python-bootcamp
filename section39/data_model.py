@@ -1,4 +1,6 @@
 flight_thresholds_type = dict[str:'prices', [list[dict[str:'city', str:'iataCode', str:'id']]]]
+# https://developers.amadeus.com/self-service/category/flights/api-doc/flight-offers-search/api-reference
+flight_search_criteria_type = list[dict[str: 'originLocationCode', str: 'destinationLocationCode', str: 'departureDate', str: 'departureDate', str: 'adults', str: 'maxPrice' ]]
 flight_search_type = set[list[str]]
 flight_matches_type = set[list[str]]
 
@@ -10,46 +12,9 @@ class DataModel:
     self.flight_matches: flight_matches_type | None = None
 
     # build a type for this
+    # rework to build list of query parameters for GET request only
     # https://developers.amadeus.com/self-service/category/flights/api-doc/flight-offers-search/api-reference
-    self.flight_search_criteria = {
-      "currencyCode": "CAD",
-      "originDestinations": [
-        # populate this with data from flight threshold
-        # {
-        #   "id": "1",
-        #   "originLocationCode": "NYC",
-        #   "destinationLocationCode": "MAD",
-        #   "departureDateTimeRange": {
-        #     "date": "2023-11-01",
-        #     "time": "10:00:00"
-        #   }
-        # }
-      ],
-      "travelers": [
-        {
-          "id": "1",
-          "travelerType": "ADULT"
-        }
-      ],
-      "sources": [
-        "GDS"
-      ],
-      "searchCriteria": {
-        "maxFlightOffers": 2,
-        "flightFilters": {
-          "cabinRestrictions": [
-            {
-              "cabin": "BUSINESS",
-              "coverage": "MOST_SEGMENTS",
-              "originDestinationIds": [
-                # populate this with total number of destination Ids from flight threshold
-                # "1"
-              ]
-            }
-          ]
-        }
-      }
-    }
+    self.flight_search_criteria: flight_search_criteria_type | list = []
 
   def get_flight_thresholds(self) -> flight_thresholds_type:
     return self.flight_thresholds
@@ -62,9 +27,8 @@ class DataModel:
     return self.flight_search_criteria
 
   ## update types for origin_destinations accordingly
-  def set_flight_search_origin_destinations(self, origin_destinations, origin_destination_ids: list[int]) -> None:
-    self.flight_search_criteria['originDestinations'] = origin_destinations
-    self.flight_search_criteria['searchCriteria']['flightFilters']['cabinRestrictions'][0]['originDestinationIds'] = origin_destination_ids
+  def set_flight_search_thresholds(self, flight_search_thresholds: flight_search_criteria_type) -> None:
+    self.flight_search_criteria = flight_search_thresholds
     print(self.get_flight_search_criteria())
 
   def get_flight_search(self) -> flight_search_type:

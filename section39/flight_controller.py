@@ -47,18 +47,32 @@ class FlightController:
     }
     return amadeus_auth_token
 
+  # rebuild to build a list of query parameters for GET
   def populate_flight_search_criteria(self):
     if self.model.get_flight_thresholds() is None:
       raise Exception('No flight thresholds defined')
     else:
       original_location_code: str = 'YYC'
-      ## improve with list comprehension
-      ### https://stackoverflow.com/questions/522563/how-to-access-the-index-value-in-a-for-loop
+
       origin_destinations: list[dict[str, str]] | list = []
       origin_destinations_ids: list[str] | list = []
 
+      # hard to improve with comprehension, will leave as for loop
       for flight_threshold in self.model.get_flight_thresholds()['prices']:
+        formatted_flight_threshold: dict[str, str | dict[str, str]] = {
+          "id": str(flight_threshold['id']),
+          "originLocationCode": original_location_code,
+          "destinationLocationCode": flight_threshold['iataCode'],
+          "departureDateTimeRange": {
+            'date': 'test',
+            'time': 'test'
+          },
+          "maxPrice": flight_threshold['lowestPrice']
+
+        }
         origin_destinations.append(flight_threshold)
         origin_destinations_ids.append(str(flight_threshold['id']))
 
       self.model.set_flight_search_origin_destinations(origin_destinations, origin_destinations_ids)
+
+  # build method to send GET requests to AMADEUS for each flight_search_criteria
