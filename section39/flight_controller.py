@@ -59,6 +59,7 @@ class FlightController:
       original_location_code: str = 'YYC'
       adults: int = 1
       currency: str = 'CAD'
+      non_stop: str = 'true'
       departure_date_six_months = datetime.datetime.now() + datetime.timedelta(days=1) + datetime.timedelta(days=6*30)
 
       # try to convert to list comprehension in part 2
@@ -68,7 +69,8 @@ class FlightController:
           'destinationLocationCode': flight_threshold['iataCode'],
           'departureDate': departure_date_six_months.strftime('%Y-%m-%d'),
           'adults': adults,
-          'currency': currency,
+          'currencyCode': currency,
+          'nonStop': non_stop,
           'maxPrice': flight_threshold['lowestPrice']
         })
 
@@ -79,5 +81,13 @@ class FlightController:
     self.populate_flight_search_criteria()
     jwt_headers = self.fetch_amadeus_jwt()
     query_parameters = self.model.get_flight_search_criteria()
-    amadeus_available_flights_request = requests.get(url=self.amadeus_flight_search_url, params=query_parameters[0], headers=jwt_headers)
-    print(amadeus_available_flights_request.json())
+    amadeus_available_flights_request = requests.get(url=self.amadeus_flight_search_url, params=query_parameters[2], headers=jwt_headers)
+
+    for flight_match in amadeus_available_flights_request.json()['data']:
+      flight_match = {
+        'price': flight_match['price']['total'],
+        'origin_airport': query_parameters[2]['originLocationCode'],
+        'destination_airport': query_parameters[2]['destinationLocationCode'],
+        'out_date': flight_match['itineraries'][0]['segments'][0]['departure']['at']
+      }
+      print(flight_match)
