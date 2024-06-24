@@ -85,8 +85,11 @@ class FlightController:
     flight_matches: flight_matches_type | list = []
 
     for flight_search_criteria in flight_search_criteria_list:
-      amadeus_available_flights_request = requests.get(url=self.amadeus_flight_search_url,
-                                                       params=flight_search_criteria, headers=jwt_headers)
+      amadeus_available_flights_request = requests.get(
+        url=self.amadeus_flight_search_url,
+        params=flight_search_criteria,
+        headers=jwt_headers
+      )
 
       if amadeus_available_flights_request.json()['data']:
         print(
