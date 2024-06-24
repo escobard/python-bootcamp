@@ -7,7 +7,8 @@ from data_model import DataModel, flight_search_criteria_type, flight_matches_ty
 
 load_dotenv()
 
-
+# TODO - add a comment explaining each method
+# TODO - strengthen types
 class FlightController:
 
   def __init__(self, data_model: DataModel):
@@ -51,7 +52,7 @@ class FlightController:
     }
     return amadeus_auth_token
 
-  # rebuild to build a list of query parameters for GET
+  # TODO - pass in search criteria as arguments
   def populate_flight_search_criteria(self):
     if self.model.get_flight_thresholds() is None:
       raise Exception('No flight thresholds defined')

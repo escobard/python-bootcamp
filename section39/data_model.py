@@ -4,7 +4,8 @@ flight_search_criteria_type = list[dict[str: 'originLocationCode', str: 'destina
 flight_search_type = set[list[str]]
 flight_matches_type = list[dict[str:'price', str:'origin_airport', str:'destination_airport', str:'out_date']]
 
-
+# TODO - add a comment explaining each method
+# TODO - strengthen types
 class DataModel:
   def __init__(self):
     self.flight_thresholds: flight_thresholds_type | None = None

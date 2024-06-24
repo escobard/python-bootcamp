@@ -5,6 +5,8 @@ from twilio.rest import Client
 from data_model import DataModel
 
 load_dotenv()
+
+# TODO - add a comment explaining each method
 class NotificationController:
 
   def __init__(self, data_model):
@@ -24,3 +26,8 @@ class NotificationController:
     )
 
   # build function to fetch flight match & send sms per match
+  def send_flight_matches_sms(self):
+    for flight_match in self.model.get_flight_matches():
+      sms_body: str = f"Low price alert! Only ${flight_match['price']} CAD to fly from {flight_match['origin_airport']} to {flight_match['destination_airport']}, on {flight_match['out_date']}."
+      print(sms_body)
+      self.send_sms(sms_body)
