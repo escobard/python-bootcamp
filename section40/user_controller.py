@@ -1,7 +1,10 @@
 import os
 import requests
+from dotenv import load_dotenv
 
 from section40.data_model import DataModel
+
+load_dotenv()
 
 
 class UserController:
@@ -17,8 +20,17 @@ class UserController:
 
     self.sheety_endpoint: str = f'https://api.sheety.co/{self.SHEETY_API_KEY}/flights/users'
 
-  def validate_user_email(self, initial_email_input: str, second_email_input: str):
-    if initial_email_input != second_email_input:
-      raise Exception(
-        f"Emails do not match! Initial email input: {initial_email_input}, Second email input: {second_email_input}"
-      )
+  def validate_user_email(self, initial_email_input: str, validate_email_input: str):
+    if initial_email_input != validate_email_input:
+      raise Exception("Emails do not match!")
+
+  def get_users(self):
+    print()
+
+  def post_user(self):
+    first_name: str = str(input('Enter your first name: '))
+    last_name: str = str(input('Enter your last name: '))
+    initial_email: str = str(input('Enter your email: '))
+    validate_email: str = str(input('Enter your email: '))
+
+    self.validate_user_email(initial_email, validate_email)
