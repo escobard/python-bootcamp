@@ -11,13 +11,16 @@
 from flight_controller import FlightController
 from data_model import DataModel
 from notification_controller import NotificationController
+from user_controller import UserController
 
 data_model = DataModel()
 notifications = NotificationController(data_model)
 flights = FlightController(data_model)
+users = UserController(data_model)
 
-flights.fetch_flight_thresholds()
-
-# print(data_model.get_flight_thresholds())
-flights.retrieve_available_flights()
-notifications.send_flight_matches_sms()
+users.post_user()
+# flights.fetch_flight_thresholds()
+#
+# # print(data_model.get_flight_thresholds())
+# flights.retrieve_available_flights()
+# notifications.send_flight_matches_sms()

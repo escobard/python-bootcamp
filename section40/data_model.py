@@ -11,11 +11,9 @@ class DataModel:
     self.flight_thresholds: flight_thresholds_type | None = None
     self.flight_search: flight_search_type | None = None
     self.flight_matches: flight_matches_type | None = None
-
-    # build a type for this
-    # rework to build list of query parameters for GET request only
-    # https://developers.amadeus.com/self-service/category/flights/api-doc/flight-offers-search/api-reference
     self.flight_search_criteria: flight_search_criteria_type | None = None
+
+    # TODO - build data model setter and getter for available users
 
   def get_flight_thresholds(self) -> flight_thresholds_type:
     return self.flight_thresholds
