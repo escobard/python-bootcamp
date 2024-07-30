@@ -1,5 +1,6 @@
 import os
 import requests
+import datetime
 from dotenv import load_dotenv
 
 from section40.data_model import DataModel
@@ -10,7 +11,6 @@ load_dotenv()
 class UserController:
 
   def __init__(self, data_model: DataModel):
-    self.model: DataModel = data_model
 
     self.SHEETY_API_KEY: str = os.environ.get('SHEETY_API_KEY')
     self.SHEETY_TOKEN: str = os.environ.get('SHEETY_TOKEN')
@@ -34,3 +34,15 @@ class UserController:
     validate_email: str = str(input('Enter your email: '))
 
     self.validate_user_email(initial_email, validate_email)
+
+    user_body: dict[str, dict[str, str]] = {
+      'users': {
+        'Timestamp': datetime.datetime.now(),
+        'First Name': first_name,
+        'Last Name': last_name,
+        'Email': validate_email
+      }
+    }
+
+    requests.post(url=self.sheety_endpoint, headers=self.sheety_headers, data=user_body)
+    print(f'New user was created with First name: {user_body['users']['First Name']}, Last name: {user_body['users']['Last Name']} and Email: {user_body['users']['Email']}')
