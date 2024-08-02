@@ -9,10 +9,21 @@ from data_model import DataModel, flight_search_criteria_type, flight_matches_ty
 load_dotenv()
 
 
-# TODO - add a comment explaining each method
 class FlightController:
+  """
+    The FlightController class is responsible for managing flight-related operations,
+    including fetching flight thresholds, authenticating with the Amadeus API,
+    populating flight search criteria, and retrieving available flights.
+    """
 
   def __init__(self, data_model: DataModel):
+    """
+        Initializes the FlightController with the provided DataModel instance and
+        sets up necessary API keys and endpoints.
+
+        Args:
+            data_model (DataModel): An instance of the DataModel class.
+        """
     self.model: DataModel = data_model
 
     self.SHEETY_API_KEY: str = os.environ.get('SHEETY_API_KEY')
@@ -39,22 +50,30 @@ class FlightController:
     self.amadeus_flight_search_url: str = 'https://test.api.amadeus.com/v2/shopping/flight-offers'
 
   def fetch_flight_thresholds(self) -> None:
+    """
+        Fetches flight thresholds from the Sheety API and updates the DataModel with the retrieved data.
+        """
     sheety_request = requests.get(url=self.sheety_flights_endpoint, headers=self.sheety_headers)
     # add exception for when results are null
     self.model.set_flight_thresholds(sheety_request.json())
 
   def fetch_amadeus_jwt(self) -> dict[str, str]:
+    """
+        Authenticates with the Amadeus API and retrieves a JWT token.
+
+        Returns:
+            dict[str, str]: A dictionary containing the JWT token.
+        """
     amadeus_auth_request = requests.post(
       url=self.amadeus_auth_url,
       data=self.amadeus_auth_body,
       headers=self.amadeus_auth_headers
     )
     amadeus_auth_token: dict[str, str] = {
-      'Authorization': f'Bearer {amadeus_auth_request.json()['access_token']}'
+      'Authorization': f'Bearer {amadeus_auth_request.json()["access_token"]}'
     }
     return amadeus_auth_token
 
-  # TODO - pass in search criteria as arguments
   def populate_flight_search_criteria(
     self, flight_search_criteria: flight_search_criteria_type | list,
     original_location_code: str,
@@ -63,6 +82,17 @@ class FlightController:
     non_stop: str,
     departure_date_six_months: datetime
   ):
+    """
+        Populates the flight search criteria based on the flight thresholds and updates the DataModel.
+
+        Args:
+            flight_search_criteria (flight_search_criteria_type | list): The list to populate with search criteria.
+            original_location_code (str): The IATA code of the origin location.
+            adults (int): The number of adults.
+            currency (str): The currency code.
+            non_stop (str): Whether the flight is non-stop.
+            departure_date_six_months (datetime): The departure date six months from now.
+        """
     if self.model.get_flight_thresholds() is None:
       raise Exception('No flight thresholds defined!')
     else:
@@ -80,8 +110,11 @@ class FlightController:
 
       self.model.set_flight_search_criteria(flight_search_criteria)
 
-  # build method to send GET requests to AMADEUS for each flight_search_criteria
   def retrieve_available_flights(self):
+    """
+        Retrieves available flights from the Amadeus API based on the populated flight search criteria
+        and updates the DataModel with the retrieved flight matches.
+        """
     jwt_headers = self.fetch_amadeus_jwt()
     flight_search_criteria_list = self.model.get_flight_search_criteria()
     flight_matches: flight_matches_type | list = []
