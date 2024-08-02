@@ -1,14 +1,15 @@
 import os
 import requests
 import datetime
+
 from dotenv import load_dotenv
 
 from data_model import DataModel, flight_search_criteria_type, flight_matches_type
 
 load_dotenv()
 
+
 # TODO - add a comment explaining each method
-# TODO - strengthen types
 class FlightController:
 
   def __init__(self, data_model: DataModel):
@@ -54,17 +55,17 @@ class FlightController:
     return amadeus_auth_token
 
   # TODO - pass in search criteria as arguments
-  def populate_flight_search_criteria(self):
+  def populate_flight_search_criteria(
+    self, flight_search_criteria: flight_search_criteria_type | list,
+    original_location_code: str,
+    adults: int,
+    currency: str,
+    non_stop: str,
+    departure_date_six_months: datetime
+  ):
     if self.model.get_flight_thresholds() is None:
-      raise Exception('No flight thresholds defined')
+      raise Exception('No flight thresholds defined!')
     else:
-      flight_search_criteria: flight_search_criteria_type | list = []
-      original_location_code: str = 'YYC'
-      adults: int = 1
-      currency: str = 'CAD'
-      non_stop: str = 'true'
-      departure_date_six_months = datetime.datetime.now() + datetime.timedelta(days=1) + datetime.timedelta(days=6 * 30)
-
       # try to convert to list comprehension in part 2
       for flight_threshold in self.model.get_flight_thresholds()['prices']:
         flight_search_criteria.append({
@@ -74,19 +75,22 @@ class FlightController:
           'adults': adults,
           'currencyCode': currency,
           'nonStop': non_stop,
-          'maxPrice': flight_threshold['lowestPrice']
+          'maxPrice': flight_threshold['lowestPrice'],
         })
 
       self.model.set_flight_search_criteria(flight_search_criteria)
 
   # build method to send GET requests to AMADEUS for each flight_search_criteria
   def retrieve_available_flights(self):
-    self.populate_flight_search_criteria()
     jwt_headers = self.fetch_amadeus_jwt()
     flight_search_criteria_list = self.model.get_flight_search_criteria()
     flight_matches: flight_matches_type | list = []
 
+    if flight_search_criteria_list is None:
+      raise Exception('Flight search criteria not populated!')
+
     for flight_search_criteria in flight_search_criteria_list:
+      # https://developers.amadeus.com/self-service/category/flights/api-doc/flight-offers-search/api-reference
       amadeus_available_flights_request = requests.get(
         url=self.amadeus_flight_search_url,
         params=flight_search_criteria,
@@ -95,7 +99,7 @@ class FlightController:
 
       if amadeus_available_flights_request.json()['data']:
         print(
-          f"Flights found for {flight_search_criteria['originLocationCode']} to {flight_search_criteria['destinationLocationCode']}")
+          f"Direct flights found for {flight_search_criteria['originLocationCode']} to {flight_search_criteria['destinationLocationCode']}")
         for flight_match in amadeus_available_flights_request.json()['data']:
           flight_match = {
             'price': flight_match['price']['total'],

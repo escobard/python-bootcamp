@@ -30,15 +30,13 @@ class UserController:
 
   def fetch_users(self):
     sheety_request = requests.get(url=self.sheety_users_endpoint, headers=self.sheety_headers)
-    print(sheety_request.json())
-    self.model.set_flight_thresholds(sheety_request.json())
-    print(self.model.get_users())
+    self.model.set_users(sheety_request.json())
 
   def create_user(self):
     first_name: str = str(input('Enter your first name: '))
     last_name: str = str(input('Enter your last name: '))
     initial_email: str = str(input('Enter your email: '))
-    validate_email: str = str(input('Enter your email: '))
+    validate_email: str = str(input('Enter your email again: '))
 
     self.validate_user_email(initial_email, validate_email)
 
@@ -53,9 +51,13 @@ class UserController:
 
     json_body = json.dumps(user_body)
 
-    ## TODO - add logic to fetch available users first
+    self.fetch_users()
 
-    ## TODO - add logic to send a put request to update a user if email already exists
+    users_list = self.model.get_users()['users']
 
-    sheety_request = requests.post(url=self.sheety_users_endpoint, headers=self.sheety_headers, data=json_body)
-    print(f'New user was created with:', sheety_request.json())
+    # https://stackoverflow.com/questions/46136665/how-to-check-if-value-exists-in-python-list-of-objects
+    if [item for item in users_list if item['email'] == validate_email]:
+      raise Exception('User already exists!')
+    else:
+      sheety_request = requests.post(url=self.sheety_users_endpoint, headers=self.sheety_headers, data=json_body)
+      print(f'New user was created with:', sheety_request.json())

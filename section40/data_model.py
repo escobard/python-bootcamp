@@ -21,11 +21,9 @@ class DataModel:
   def set_flight_thresholds(self, flight_thresholds: flight_thresholds_type) -> None:
     self.flight_thresholds = flight_thresholds
 
-  ## update types for origin_destinations accordingly
   def get_flight_search_criteria(self):
     return self.flight_search_criteria
 
-  ## update types for origin_destinations accordingly
   def set_flight_search_criteria(self, flight_search_thresholds: flight_search_criteria_type) -> None:
     self.flight_search_criteria = flight_search_thresholds
 
@@ -35,7 +33,6 @@ class DataModel:
   def set_flight_search(self, flight_search: flight_search_type) -> None:
     self.flight_search = flight_search
 
-  # update parameter type to match flight data
   def update_flight_search(self, flight_search_result) -> None:
     self.flight_search = self.flight_search.update(flight_search_result)
 
