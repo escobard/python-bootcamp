@@ -13,6 +13,7 @@ load_dotenv()
 class UserController:
 
   def __init__(self, data_model: DataModel):
+    self.model: DataModel = data_model
 
     self.SHEETY_API_KEY: str = os.environ.get('SHEETY_API_KEY')
     self.SHEETY_TOKEN: str = os.environ.get('SHEETY_TOKEN')
@@ -21,14 +22,16 @@ class UserController:
       'Content-Type': 'application/json'
     }
 
-    self.sheety_endpoint: str = f'https://api.sheety.co/{self.SHEETY_API_KEY}/flights/users'
+    self.sheety_users_endpoint: str = f'https://api.sheety.co/{self.SHEETY_API_KEY}/flights/users'
 
   def validate_user_email(self, initial_email_input: str, validate_email_input: str):
     if initial_email_input != validate_email_input:
       raise Exception("Emails do not match!")
 
   def get_users(self):
-    print()
+    sheety_request = requests.get(url=self.sheety_users_endpoint, headers=self.sheety_headers)
+    # add exception for when results are null
+    self.model.set_flight_thresholds(sheety_request.json())
 
   def post_user(self):
     first_name: str = str(input('Enter your first name: '))
@@ -53,5 +56,5 @@ class UserController:
 
     ## TODO - add logic to send a put request to update a user if email already exists
 
-    sheety_request = requests.post(url=self.sheety_endpoint, headers=self.sheety_headers, data=json_body)
+    sheety_request = requests.post(url=self.sheety_users_endpoint, headers=self.sheety_headers, data=json_body)
     print(f'New user was created with:', sheety_request.json())

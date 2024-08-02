@@ -20,7 +20,7 @@ class FlightController:
       'Authorization': f'Basic {self.SHEETY_TOKEN}'
     }
 
-    self.sheety_endpoint: str = f'https://api.sheety.co/{self.SHEETY_API_KEY}/flights/prices'
+    self.sheety_flights_endpoint: str = f'https://api.sheety.co/{self.SHEETY_API_KEY}/flights/prices'
 
     self.AMADEUS_API_KEY: str = os.environ.get('AMADEUS_API_KEY')
     self.AMADEUS_API_SECRET: str = os.environ.get('AMADEUS_API_SECRET')
@@ -38,7 +38,7 @@ class FlightController:
     self.amadeus_flight_search_url: str = 'https://test.api.amadeus.com/v2/shopping/flight-offers'
 
   def fetch_flight_thresholds(self) -> None:
-    sheety_request = requests.get(url=self.sheety_endpoint, headers=self.sheety_headers)
+    sheety_request = requests.get(url=self.sheety_flights_endpoint, headers=self.sheety_headers)
     # add exception for when results are null
     self.model.set_flight_thresholds(sheety_request.json())
 
