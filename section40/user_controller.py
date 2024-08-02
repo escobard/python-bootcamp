@@ -28,12 +28,13 @@ class UserController:
     if initial_email_input != validate_email_input:
       raise Exception("Emails do not match!")
 
-  def get_users(self):
+  def fetch_users(self):
     sheety_request = requests.get(url=self.sheety_users_endpoint, headers=self.sheety_headers)
-    # add exception for when results are null
+    print(sheety_request.json())
     self.model.set_flight_thresholds(sheety_request.json())
+    print(self.model.get_users())
 
-  def post_user(self):
+  def create_user(self):
     first_name: str = str(input('Enter your first name: '))
     last_name: str = str(input('Enter your last name: '))
     initial_email: str = str(input('Enter your email: '))

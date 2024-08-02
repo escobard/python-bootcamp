@@ -18,7 +18,8 @@ notifications = NotificationController(data_model)
 flights = FlightController(data_model)
 users = UserController(data_model)
 
-users.post_user()
+# users.create_user()
+users.fetch_users()
 # flights.fetch_flight_thresholds()
 #
 # # print(data_model.get_flight_thresholds())
