@@ -11,8 +11,19 @@ load_dotenv()
 
 
 class UserController:
+  """
+  The UserController class is responsible for managing user-related operations,
+  including validating user emails, fetching users from the Sheety API, and creating new users.
+  """
 
   def __init__(self, data_model: DataModel):
+    """
+    Initializes the UserController with the provided DataModel instance and
+    sets up necessary API keys and endpoints.
+
+    Args:
+        data_model (DataModel): An instance of the DataModel class.
+    """
     self.model: DataModel = data_model
 
     self.SHEETY_API_KEY: str = os.environ.get('SHEETY_API_KEY')
@@ -24,21 +35,25 @@ class UserController:
 
     self.sheety_users_endpoint: str = f'https://api.sheety.co/{self.SHEETY_API_KEY}/flights/users'
 
-  def validate_user_email(self, initial_email_input: str, validate_email_input: str):
-    if initial_email_input != validate_email_input:
-      raise Exception("Emails do not match!")
-
   def fetch_users(self):
+    """
+    Fetches users from the Sheety API and updates the DataModel with the retrieved data.
+    """
     sheety_request = requests.get(url=self.sheety_users_endpoint, headers=self.sheety_headers)
     self.model.set_users(sheety_request.json())
 
   def create_user(self):
+    """
+    Prompts the user for their first name, last name, and email, validates the email,
+    and creates a new user in the Sheety API if the user does not already exist.
+    """
     first_name: str = str(input('Enter your first name: '))
     last_name: str = str(input('Enter your last name: '))
     initial_email: str = str(input('Enter your email: '))
     validate_email: str = str(input('Enter your email again: '))
 
-    self.validate_user_email(initial_email, validate_email)
+    if initial_email != validate_email:
+      raise Exception("Emails do not match!")
 
     user_body: dict[str, dict[str, str]] = {
       'user': {
