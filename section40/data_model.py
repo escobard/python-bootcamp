@@ -103,7 +103,6 @@ class DataModel:
         flight_match (flight_matches_type): The new flight matches data.
     """
     self.flight_matches = flight_match
-    print(self.get_flight_matches())
 
   def get_users(self) -> users_type:
     """

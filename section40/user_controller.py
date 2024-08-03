@@ -46,9 +46,7 @@ class UserController:
     self.model.set_users(sheety_request.json())
 
   def map_user_emails(self) -> None:
-
-    if self.model.get_users() is None:
-      self.fetch_users()
+    self.fetch_users()
 
     users_list = self.model.get_users()['users']
 
