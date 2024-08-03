@@ -9,6 +9,7 @@ from section40.data_model import DataModel
 
 load_dotenv()
 
+user_body_type = dict[str, dict[str, str]]
 
 class UserController:
   """
@@ -35,14 +36,14 @@ class UserController:
 
     self.sheety_users_endpoint: str = f'https://api.sheety.co/{self.SHEETY_API_KEY}/flights/users'
 
-  def fetch_users(self):
+  def fetch_users(self) -> None:
     """
     Fetches users from the Sheety API and updates the DataModel with the retrieved data.
     """
     sheety_request = requests.get(url=self.sheety_users_endpoint, headers=self.sheety_headers)
     self.model.set_users(sheety_request.json())
 
-  def create_user(self):
+  def create_user(self) -> None:
     """
     Prompts the user for their first name, last name, and email, validates the email,
     and creates a new user in the Sheety API if the user does not already exist.
@@ -55,7 +56,7 @@ class UserController:
     if initial_email != validate_email:
       raise Exception("Emails do not match!")
 
-    user_body: dict[str, dict[str, str]] = {
+    user_body: user_body_type = {
       'user': {
         'timestamp': str(datetime.datetime.now()),
         'firstName': first_name,

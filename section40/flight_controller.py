@@ -81,7 +81,7 @@ class FlightController:
     currency: str,
     non_stop: str,
     departure_date_six_months: datetime
-  ):
+  ) -> None:
     """
         Populates the flight search criteria based on the flight thresholds and updates the DataModel.
 
@@ -110,7 +110,7 @@ class FlightController:
 
       self.model.set_flight_search_criteria(flight_search_criteria)
 
-  def retrieve_available_flights(self):
+  def retrieve_available_flights(self) -> None:
     """
         Retrieves available flights from the Amadeus API based on the populated flight search criteria
         and updates the DataModel with the retrieved flight matches.
