@@ -36,6 +36,8 @@ class UserController:
 
     self.sheety_users_endpoint: str = f'https://api.sheety.co/{self.SHEETY_API_KEY}/flights/users'
 
+
+
   def fetch_users(self) -> None:
     """
     Fetches users from the Sheety API and updates the DataModel with the retrieved data.
@@ -43,6 +45,20 @@ class UserController:
     sheety_request = requests.get(url=self.sheety_users_endpoint, headers=self.sheety_headers)
     self.model.set_users(sheety_request.json())
 
+  def map_user_emails(self) -> None:
+
+    if self.model.get_users() is None:
+      self.fetch_users()
+
+    users_list = self.model.get_users()['users']
+
+    user_emails = []
+
+    for user in users_list:
+      user_emails.append(user['email'])
+
+    self.model.set_user_emails(user_emails)
+    print(self.model.get_user_emails())
   def create_user(self) -> None:
     """
     Prompts the user for their first name, last name, and email, validates the email,
@@ -72,7 +88,7 @@ class UserController:
     users_list = self.model.get_users()['users']
 
     # https://stackoverflow.com/questions/46136665/how-to-check-if-value-exists-in-python-list-of-objects
-    if [item for item in users_list if item['email'] == validate_email]:
+    if [user for user in users_list if user['email'] == validate_email]:
       raise Exception('User already exists!')
     else:
       sheety_request = requests.post(url=self.sheety_users_endpoint, headers=self.sheety_headers, data=json_body)
