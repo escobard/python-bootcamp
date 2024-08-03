@@ -36,8 +36,6 @@ class UserController:
 
     self.sheety_users_endpoint: str = f'https://api.sheety.co/{self.SHEETY_API_KEY}/flights/users'
 
-
-
   def fetch_users(self) -> None:
     """
     Fetches users from the Sheety API and updates the DataModel with the retrieved data.
@@ -46,6 +44,9 @@ class UserController:
     self.model.set_users(sheety_request.json())
 
   def map_user_emails(self) -> None:
+    """
+    Fetches users from the Sheety API, extracts their email addresses, and updates the DataModel with the list of emails.
+    """
     self.fetch_users()
 
     users_list = self.model.get_users()['users']
@@ -57,6 +58,7 @@ class UserController:
 
     self.model.set_user_emails(user_emails)
     print(self.model.get_user_emails())
+
   def create_user(self) -> None:
     """
     Prompts the user for their first name, last name, and email, validates the email,
